@@ -3,17 +3,28 @@ public class TetrisBoard {
 	//Make a Queue for Tetriminos here. Call the queue tetQ.
 	private Tetrimino tet; // Holder for the current paying block.
 	private int[][] playingBoard; //Keeps track of placed blocks. The integer value inside will determine what "color" block was placed there.
+	private boolean gameFinish;
+	private int score;
 	
 	public TetrisBoard(){
-		/*Construct the Tetrimino queue here.
-		 * 
-		 * 
-		 */
+		gameFinish = false;
+		score = 0;
 		
-		/*Construct the playingBoard here.
-		 * 
-		 * 
-		 */
+		//Construct the Tetrimino queue here.
+		
+		for(int i = 0; i < 200; i++){
+			tetQ.enqueue(new Tetrimino((int)(Math.random()*6) + 1));
+		}
+		
+		//Construct the playingBoard here.
+		
+		playingBoard = new int[10][22];
+		
+		for(int x = 0; x < 10; x++){
+			for(int y = 0; y < 0; y++){
+				playingBoard[x][y] = 0;
+			}
+		}
 	}
 	
 	//Takes a block from the Tetrimino queue and makes it the new playing block.
@@ -34,5 +45,55 @@ public class TetrisBoard {
 		playingBoard[xyv2/100][(xyv2/10)%10] = xyv2%100;
 		playingBoard[xyv3/100][(xyv3/10)%10] = xyv3%100;
 		playingBoard[xyv4/100][(xyv4/10)%10] = xyv4%100;
+	}
+	
+	//Returns the block line that's been cleared. Modifies the board as necessary. This should run in a while loop until -1 is achieved.
+	public void checkLineClear(){
+		boolean isDone = false;
+		int countBlock = 0;
+		
+		while(!isDone){
+			isDone = true;
+			countBlock = 0;
+		
+			for(int y = 0; y < 22; y++){
+				for(int x = 0; x < 10; x++){
+					if(!(playingBoard[x][y] == 0)){
+						countBlock++;
+					}
+					
+					if(countBlock == 10){
+						clearLine(y);
+						isDone = false;
+					}
+				}
+			}
+		}
+	}
+	
+	public void clearLine(int lineToClear){
+		int[][] tempBoard = playingBoard;
+		
+		for(int y = lineToClear; y > 0; y--){
+			for(int x = 0; x < 10; x++){
+				playingBoard[x][y] = tempBoard[x][y-1];
+			}
+		}
+	}
+	
+	public int[][] getBoard(){
+		return playingBoard;
+	}
+	
+	public boolean gameFinished(){
+		return gameFinish;
+	}
+	
+	public void addScore(int scoreAdd){
+		score += scoreAdd;
+	}
+	
+	public int getScore(){
+		return score;
 	}
 }
