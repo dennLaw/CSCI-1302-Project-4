@@ -38,6 +38,11 @@ public class TetrisBoard {
 		}
 	}
 	
+	//Inspects a block from the queue. To be used for displaying "Blocks to come".
+	public Tetrimino inspectBlock(int e){
+		return tetQ.element(e);
+	}
+	
 	//Takes 4 xy-values and places the blocks into TetrisBlock[][] accordingly. First digit is x-value, second digit is y-value, and third digit is blockValue.
 	public void blockPlace(int xyv1, int xyv2, int xyv3, int xyv4){
 		playingBoard[xyv1/100][(xyv1/10)%10] = xyv1%100;
