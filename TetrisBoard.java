@@ -94,21 +94,10 @@ public class TetrisBoard {
 			for(int x = 0; x < 10; x++){
 				//Checks for blocks in play and then checks if there is space below it.
 				if(playingBoard[x][y]/10 == 1){
-					if(y+1 == 24){
+					if(y+1 == 24 || playingBoard[x][y+1]%10 != 0 && playingBoard[x][y+1]/10 == 0){
 						if(collisionTwice){
 							placeBlock = true;
-							System.out.println("CollisionTwice Set True " + playingBoard[x][y]/10 + "  + playingBoard[x][y+1]%10 ");
-						}
-						else{
-							collisionOnce = true;
-							System.out.println("CollisionOnce Set True");
-						}
-					}
-					else if(playingBoard[x][y+1]%10 != 0 && playingBoard[x][y+1]/10 == 0){
-						if(collisionTwice){
-							System.out.println("aaaaa");
-							placeBlock = true;
-							System.out.println("CollisionTwice Set True " + playingBoard[x][y]/10 + "  + playingBoard[x][y+1]%10 ");
+							System.out.println("CollisionTwice Set True");
 						}
 						else{
 							collisionOnce = true;
@@ -116,19 +105,6 @@ public class TetrisBoard {
 						}
 					}
 				}
-				/*
-				if(playingBoard[x][y]/10 == 1 && (playingBoard[x][y+1]%10 != 0 && playingBoard[x][y+1]/10 == 0 || y+1 == 24)){
-					if(collisionTwice){
-						System.out.println("aaaaa");
-						placeBlock = true;
-						System.out.println("CollisionTwice Set True " + playingBoard[x][y]/10 + "  + playingBoard[x][y+1]%10 ");
-					}
-					else{
-						collisionOnce = true;
-						System.out.println("CollisionOnce Set True");
-					}
-				}
-				*/
 			}
 		}
 		
