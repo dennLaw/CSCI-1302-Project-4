@@ -12,7 +12,7 @@ public class DummyGame {
     
     public static void main(String args[]){
         
-        TetrisMainMenu mainMenu = new TetrisMainMenu();
+        MainMenu mainMenu = new MainMenu();
         mainMenu.setVisible(true);
         
     }
