@@ -44,19 +44,34 @@ public class TetrisBoard {
 		if(!blockInPlay){
 			tet = getBlock();
 			
+			checkGameFinish();
 			//Handle loading in the block here.
-			loadBlock();
+			if(!gameFinish){
+				loadBlock();
+			}
 		}
 		
-		checkCollision();
-		
-		//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
-		if(!collisionOnce && blockInPlay){
-			moveDown();
-			System.out.println("MoveDown");
+		if(!gameFinish){
+			checkCollision();
+			
+			//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
+			if(!collisionOnce && blockInPlay){
+				moveDown();
+				System.out.println("MoveDown");
+			}
+			
+			testPrint();
+		}
+	}
+	
+	public void checkGameFinish(){
+		if(tet == null){
+			gameFinish = true;
 		}
 		
-		testPrint();
+		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
+			gameFinish = true;
+		}
 	}
 	
 	public void testPrint(){
@@ -194,6 +209,7 @@ public class TetrisBoard {
 			}
 		}
 		
+		checkLineClear();
 		blockInPlay = false;
 	}
 	
