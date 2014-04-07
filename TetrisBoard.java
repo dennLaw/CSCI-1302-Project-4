@@ -51,8 +51,25 @@ public class TetrisBoard {
 		checkCollision();
 		
 		//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
-		if(!collisionOnce){
+		if(!collisionOnce && blockInPlay){
 			moveDown();
+			System.out.println("MoveDown");
+		}
+		
+		testPrint();
+	}
+	
+	public void testPrint(){
+		for(int y = 0; y < 24; y++){
+			for(int x = 0; x < 10; x++){
+				if(playingBoard[x][y] == 0){
+					System.out.print("O");
+				}
+				else{
+					System.out.print("X");
+				}
+			}
+			System.out.println("");
 		}
 	}
 	
@@ -70,19 +87,48 @@ public class TetrisBoard {
 		if(collisionOnce){
 			collisionTwice = true;
 			collisionOnce = false;
+			System.out.println("CollisionOnce Set False");
 		}
 		
-		for(int y = 23; y > -1; y++){
+		for(int y = 23; y > -1; y--){
 			for(int x = 0; x < 10; x++){
 				//Checks for blocks in play and then checks if there is space below it.
-				if(playingBoard[x][y]/10 == 1 && playingBoard[x][y+1]%10 != 0 || y == 23){
+				if(playingBoard[x][y]/10 == 1){
+					if(y+1 == 24){
+						if(collisionTwice){
+							placeBlock = true;
+							System.out.println("CollisionTwice Set True " + playingBoard[x][y]/10 + "  + playingBoard[x][y+1]%10 ");
+						}
+						else{
+							collisionOnce = true;
+							System.out.println("CollisionOnce Set True");
+						}
+					}
+					else if(playingBoard[x][y+1]%10 != 0 && playingBoard[x][y+1]/10 == 0){
+						if(collisionTwice){
+							System.out.println("aaaaa");
+							placeBlock = true;
+							System.out.println("CollisionTwice Set True " + playingBoard[x][y]/10 + "  + playingBoard[x][y+1]%10 ");
+						}
+						else{
+							collisionOnce = true;
+							System.out.println("CollisionOnce Set True");
+						}
+					}
+				}
+				/*
+				if(playingBoard[x][y]/10 == 1 && (playingBoard[x][y+1]%10 != 0 && playingBoard[x][y+1]/10 == 0 || y+1 == 24)){
 					if(collisionTwice){
+						System.out.println("aaaaa");
 						placeBlock = true;
+						System.out.println("CollisionTwice Set True " + playingBoard[x][y]/10 + "  + playingBoard[x][y+1]%10 ");
 					}
 					else{
 						collisionOnce = true;
+						System.out.println("CollisionOnce Set True");
 					}
 				}
+				*/
 			}
 		}
 		
@@ -90,6 +136,7 @@ public class TetrisBoard {
 			blockPlace();
 			collisionTwice = false;
 			placeBlock = false;
+			System.out.println("Block Placed");
 		}
 		else{
 			collisionTwice = false;
@@ -98,11 +145,12 @@ public class TetrisBoard {
 	}
 	
 	public void moveDown(){
-		for(int y = 23; y > -1; y++){
+		for(int y = 22; y > -1; y--){
 			for(int x = 0; x < 10; x++){
 				//Checks for blocks in play and then moves them down one.
 				if(playingBoard[x][y]/10 == 1){
 					playingBoard[x][y+1] = 10 + tet.getType();
+					playingBoard[x][y] = 0;
 				}
 			}
 		}
