@@ -102,7 +102,7 @@ public class TetrisOptions extends javax.swing.JFrame {
 
     private void PlayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayButtonActionPerformed
         // TODO add your handling code here:
-        TetrisBoard newGame = new TetrisBoard();
+        TetrisForm newGame = new TetrisForm();
         newGame.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_PlayButtonActionPerformed

@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue; 
+
 public class TetrisBoard {
 	
 	//Make a Queue for Tetriminos here. Call the queue tetQ.
@@ -5,6 +8,7 @@ public class TetrisBoard {
 	private int[][] playingBoard; //Keeps track of placed blocks. The integer value inside will determine what "color" block was placed there.
 	private boolean gameFinish;
 	private int score;
+	private Queue <Tetrimino> tetQ = new LinkedList <Tetrimino>();
 	
 	public TetrisBoard(){
 		gameFinish = false;
@@ -13,7 +17,7 @@ public class TetrisBoard {
 		//Construct the Tetrimino queue here.
 		
 		for(int i = 0; i < 200; i++){
-			tetQ.enqueue(new Tetrimino((int)(Math.random()*6) + 1));
+			tetQ.add(new Tetrimino((int)(Math.random()*6) + 1));
 		}
 		
 		//Construct the playingBoard here.
@@ -33,8 +37,7 @@ public class TetrisBoard {
 			return null;
 		}
 		else{
-			tet = tetQ.first();
-			tetQ.dequeue();
+			tet = tetQ.remove();
 			return tet;
 		}
 	}
