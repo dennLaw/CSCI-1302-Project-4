@@ -217,6 +217,7 @@ public class TetrisBoard {
 	public void checkLineClear(){
 		boolean isDone = false;
 		int countBlock = 0;
+		int countLinesCleared = 0;
 		
 		while(!isDone){
 			isDone = true;
@@ -231,10 +232,13 @@ public class TetrisBoard {
 					if(countBlock == 10){
 						clearLine(y);
 						isDone = false;
+						countLinesCleared++;
 					}
 				}
 			}
 		}
+		
+		lineClearScore(countLinesCleared);
 	}
 	
 	public void clearLine(int lineToClear){
@@ -244,6 +248,21 @@ public class TetrisBoard {
 			for(int x = 0; x < 10; x++){
 				playingBoard[x][y] = tempBoard[x][y-1];
 			}
+		}
+	}
+	
+	public void lineClearScore(int lc){
+		if(lc == 1){
+			addScore(1000);
+		}
+		else if(lc == 2){
+			addScore(5000);
+		}
+		else if(lc == 3){
+			addScore(15000);
+		}
+		else if(lc == 4){
+			addScore(50000);
 		}
 	}
 	
