@@ -42,7 +42,7 @@ public class TetrisBoard {
 	
 	public void createForm() {
 		
-		guiBoard.setVisible(true);
+		guiBoard.makeFrame();
 		
 	}
 	
@@ -65,6 +65,7 @@ public class TetrisBoard {
 			//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
 			if(!collisionOnce && blockInPlay){
 				moveDown();
+				guiBoard.tickDown();
 				System.out.println("MoveDown");
 			}
 			
@@ -77,7 +78,7 @@ public class TetrisBoard {
 			gameFinish = true;
 		}
 		
-<<<<<<< HEAD
+
 		//testPrint();
 	
 	}
@@ -85,13 +86,13 @@ public class TetrisBoard {
 	public void testImage(String path){
 		
 		String blockLocation = path;
-		guiBoard.addBlock(blockLocation);
+		//guiBoard.addBlock(blockLocation);
 		
-=======
+
 		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
 			gameFinish = true;
 		}
->>>>>>> c346be271e0abd991d736b5697981b85eedcc291
+
 	}
 	
 	public void testPrint(){
@@ -161,6 +162,7 @@ public class TetrisBoard {
 				//Checks for blocks in play and then moves them down one.
 				if(playingBoard[x][y]/10 == 1){
 					playingBoard[x][y+1] = 10 + tet.getType();
+					//guiBoard.moveDown(x, y + 1);
 					playingBoard[x][y] = 0;
 				}
 			}
@@ -178,42 +180,49 @@ public class TetrisBoard {
 			playingBoard[5][1] = 11;
 			playingBoard[5][2] = 11;
 			playingBoard[5][3] = 11;
+			guiBoard.setShape(1, 5, 0);
 		}
 		else if(tet.getType() == 2){
 			playingBoard[5][0] = 12;
 			playingBoard[5][1] = 12;
 			playingBoard[5][2] = 12;
 			playingBoard[4][2] = 12;
+			guiBoard.setShape(2, 4, 0);
 		}
 		else if(tet.getType() == 3){
 			playingBoard[4][0] = 13;
 			playingBoard[4][1] = 13;
 			playingBoard[4][2] = 13;
 			playingBoard[5][2] = 13;
+			guiBoard.setShape(3, 4, 0);
 		}
 		else if(tet.getType() == 4){
 			playingBoard[4][0] = 14;
 			playingBoard[5][0] = 14;
 			playingBoard[4][1] = 14;
 			playingBoard[5][1] = 14;
+			guiBoard.setShape(4, 4, 0);
 		}
 		else if(tet.getType() == 5){
 			playingBoard[6][0] = 15;
 			playingBoard[5][0] = 15;
 			playingBoard[5][1] = 15;
 			playingBoard[4][1] = 15;
+			guiBoard.setShape(5, 4, 0);
 		}
 		else if(tet.getType() == 6){
 			playingBoard[4][0] = 16;
 			playingBoard[5][0] = 16;
 			playingBoard[6][0] = 16;
 			playingBoard[5][1] = 16;
+			guiBoard.setShape(6, 4, 0);
 		}
 		else{
 			playingBoard[4][0] = 17;
 			playingBoard[5][0] = 17;
 			playingBoard[5][1] = 17;
 			playingBoard[6][1] = 17;
+			guiBoard.setShape(7, 4, 0);
 		}
 		
 		blockInPlay = true;
@@ -229,6 +238,7 @@ public class TetrisBoard {
 			}
 		}
 		
+		guiBoard.placeBlock();
 		checkLineClear();
 		blockInPlay = false;
 	}
