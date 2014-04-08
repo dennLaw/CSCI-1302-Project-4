@@ -11,9 +11,10 @@
 public class DummyGame {
     
     public static void main(String args[]){
-        
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.setVisible(true);
+    	String projPath = System.getProperty("user.dir");
+        TetrisForm tBoard = new TetrisForm();
+        tBoard.setVisible(true);
+        tBoard.addBlock(projPath + "\\art\\ViperBadge.jpg");
         
     }
     
