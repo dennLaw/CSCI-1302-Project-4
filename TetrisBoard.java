@@ -65,7 +65,6 @@ public class TetrisBoard {
 			//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
 			if(!collisionOnce && blockInPlay){
 				moveDown();
-				System.out.println("MoveDown");
 			}
 			
 			testPrint();
@@ -116,7 +115,6 @@ public class TetrisBoard {
 		if(collisionOnce){
 			collisionTwice = true;
 			collisionOnce = false;
-			System.out.println("CollisionOnce Set False");
 		}
 		
 		for(int y = 23; y > -1; y--){
@@ -126,11 +124,9 @@ public class TetrisBoard {
 					if(y+1 == 24 || playingBoard[x][y+1]%10 != 0 && playingBoard[x][y+1]/10 == 0){
 						if(collisionTwice){
 							placeBlock = true;
-							System.out.println("CollisionTwice Set True");
 						}
 						else{
 							collisionOnce = true;
-							System.out.println("CollisionOnce Set True");
 						}
 					}
 				}
@@ -296,28 +292,160 @@ public class TetrisBoard {
 		return score;
 	}
 	
-	//Twist Right
-	public void clockwise(){
+	//Twist
+	public void Twist(){
+		int xy1 = -1;
+		int xy2 = -1;
+		int xy3 = -1;
+		int xy4 = -1;
 		
-	}
-	
-	//Twist Left
-	public void counterclockwise(){
+		for(int y = 0; y < 24; y++){
+			for(int x = 0; x < 10; x++){
+				if(playingBoard[x][y]/10 == 1){
+					if(xy1 != -1){
+						xy1 = x*10+y;
+					}
+					else if(xy1 != -1){
+						xy2 = x*10+y;
+					}
+					else if(xy1 != -1){
+						xy3 = x*10+y;
+					}
+					else{
+						xy4 = x*10+y;
+					}
+				}
+			}
+		}
 		
+		if(tet.getType() == 1){
+			
+		}
+		else if(tet.getType() == 2){
+			
+		}
+		else if(tet.getType() == 3){
+			
+		}
+		else if(tet.getType() == 4){
+			//This block is a square.
+		}
+		else if(tet.getType() == 5){
+			
+		}
+		else if(tet.getType() == 6){
+			
+		}
+		else{
+			
+		}
 	}
 	
 	//Move Right
 	public void moveRight(){
+		boolean canMove = true;
 		
+		for(int y = 22; y > -1; y--){
+			
+			if(canMove && playingBoard[9][y]/10 == 1){
+				canMove = false;
+			}
+			
+			for(int x = 1; x < 10; x++){
+				if(canMove && playingBoard[x-1][y]%10 != 0 && playingBoard[x-1][y]/10 == 0 && playingBoard[x][y]/10 == 1){
+					canMove = false;
+				}
+			}
+		}
+		
+		if(canMove){
+			for(int y = 22; y > -1; y--){
+				for(int x = 0; x < 9; x++){
+					if(playingBoard[x][y]/10 == 1){
+						playingBoard[x+1][y] = 10 + tet.getType();
+						playingBoard[x][y] = 0;
+					}
+				}
+			}
+		}
 	}
 	
 	//Move Left
 	public void moveLeft(){
+		boolean canMove = true;
 		
+		for(int y = 22; y > -1; y--){
+			
+			if(canMove && playingBoard[0][y]/10 == 1){
+				canMove = false;
+			}
+			
+			for(int x = 0; x < 9; x++){
+				if(canMove && playingBoard[x][y]%10 != 0 && playingBoard[x][y]/10 == 0 && playingBoard[x+1][y]/10 == 1){
+					canMove = false;
+				}
+			}
+		}
+		
+		if(canMove){
+			for(int y = 22; y > -1; y--){
+				for(int x = 1; x < 10; x++){
+					if(playingBoard[x][y]/10 == 1){
+						playingBoard[x-1][y] = 10 + tet.getType();
+						playingBoard[x][y] = 0;
+					}
+				}
+			}
+		}
 	}
 	
 	//Instant Drop
 	public void instantDrop(){
+		int shortestDrop = 50;
+		int lowestPlayingInColumn = 0;
+		int lowestPlayingUnit = 0;
 		
+		for(int x = 0; x < 10; x++){
+			lowestPlayingInColumn = 0;
+			
+			for(int y = 0; y < 23; y--){
+				if(playingBoard[x][y]/10 == 1){
+					lowestPlayingInColumn = y;
+					
+					if(y > lowestPlayingUnit){
+						lowestPlayingUnit = y;
+					}
+				}
+				
+				if(lowestPlayingInColumn != 0 && playingBoard[x][y]%10 != 0 && playingBoard[x][y]/10 == 0){
+					if(shortestDrop > y - lowestPlayingInColumn){
+						shortestDrop = y - lowestPlayingInColumn;
+					}
+				}
+			}
+		}
+		
+		if(shortestDrop != 50){
+			for(int y = 22; y > -1; y--){
+				for(int x = 0; x < 10; x++){
+					//Checks for blocks in play and then moves them down one.
+					if(playingBoard[x][y]/10 == 1){
+						playingBoard[x][y+shortestDrop] = 10 + tet.getType();
+						playingBoard[x][y] = 0;
+					}
+				}
+			}
+		}
+		else{
+			for(int y = 22; y > -1; y--){
+				for(int x = 0; x < 10; x++){
+					//Checks for blocks in play and then moves them down one.
+					if(playingBoard[x][y]/10 == 1){
+						playingBoard[x][y+(23-lowestPlayingUnit)] = 10 + tet.getType();
+						playingBoard[x][y] = 0;
+					}
+				}
+			}
+		}
 	}
 }
