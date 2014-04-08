@@ -77,21 +77,15 @@ public class TetrisBoard {
 			gameFinish = true;
 		}
 		
-<<<<<<< HEAD
-		//testPrint();
-	
+		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
+			gameFinish = true;
+		}
 	}
 	
 	public void testImage(String path){
 		
 		String blockLocation = path;
 		guiBoard.addBlock(blockLocation);
-		
-=======
-		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
-			gameFinish = true;
-		}
->>>>>>> c346be271e0abd991d736b5697981b85eedcc291
 	}
 	
 	public void testPrint(){
