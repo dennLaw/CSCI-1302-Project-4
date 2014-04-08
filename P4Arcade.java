@@ -6,10 +6,11 @@ public class P4Arcade {
 		String projPath = System.getProperty("user.dir");
 		TetrisBoard tetB = new TetrisBoard();
 		tetB.createForm();
-		tetB.testImage(projPath + "\\art\\ViperBadge.jpg");
-		int i = 0;
-		/*
-		while(i < 100){
+		tetB.tick();
+		tetB.tick();
+		//int i = 0;
+		
+		/*while(i < 100){
 			tetB.tick();
 			
 			i++;

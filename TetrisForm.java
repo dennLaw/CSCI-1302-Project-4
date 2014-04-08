@@ -9,28 +9,150 @@
  * @author KLZ de Panama
  */
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class TetrisForm extends javax.swing.JFrame {
 
     /**
      * Creates new form TetrisForm
      */
-    public TetrisForm() {
+    
+	int finalBlockType = 0;
+	int startingX = 0;
+	int startingY = 0;
+	int currentX = 0;
+	int currentY = 0;
+	int width = 0;
+	int height = 0;
+	
+	
+	String projPath = System.getProperty("user.dir");
+        JLabel blockLabel = new JLabel();
+	
+        
+	public TetrisForm() {
         initComponents();
     }
     
-    public void addBlock(String fileLocation)
+	
+    public void addBlock(String fileLocation, int xCoord, int yCoord)
     {
-    	
     	String addedBlock = fileLocation;
-    	blockLabel.setIcon(new ImageIcon(addedBlock));
-    	    	blockLabel.setVisible(true);
+        ImageIcon blockPic = new ImageIcon(addedBlock);
+    	blockLabel.setIcon(blockPic);
+        LayeredPane.moveToFront(blockLabel);
+        
+        startingX = 39*xCoord;
+        startingY = 39*yCoord;
+        currentX = startingX;
+        currentY = startingY;
+        width = blockPic.getIconWidth();
+        height = blockPic.getIconHeight();
+        setPosition(blockLabel, startingX, startingY);
+        
+        blockLabel.setVisible(true);
+    }
+    
+    
+    public void setPosition(JLabel blok, int x, int y){
+    	blok.setBounds(x, y, width, height);
+    }
+    
+    
+    public void resetPosition(JLabel blok){
+    
+    blok.setBounds(startingX, startingY, width, height);
+    }
+    
+    
+    public void moveLeft(){
+        
+    }   
+    
+    public void moveRight(){
+        
+    }
+    
+    public void drop(){
+        
+    }
+    
+    public void tickDown(){
+    	
+    	currentY = currentY + 10;
+        blockLabel.setBounds(currentX, currentY, width, height);
+    }
+    
+    
+    public void placeBlock(){
+    
+    	resetPosition(blockLabel);
+    	JLabel finalBlock = new JLabel();
+    	ImageIcon blockPic = new ImageIcon(projPath + "\\art\\IbeamG.png");
+    	finalBlock.setIcon(blockPic);
+        LayeredPane.add(finalBlock);
+        LayeredPane.moveToFront(finalBlock);
+        
+        
+        finalBlock.setBounds(currentX, currentY, width, height);
+        blockLabel.setVisible(false);
     	
     }
     
+    
+    public void setShape(int blockType, int startX, int startY){
+    	
+    	if (blockType == 1)
+    	{
+    		finalBlockType = 1;
+    		String block = projPath + "\\art\\Ibeam.png";
+    		addBlock(block, startX, startY);
+    	}
+    	
+    	else if (blockType == 2){
+    		finalBlockType = 2;
+    		String block = projPath + "\\art\\Jbeam.png";
+    		addBlock(block, startX, startY);
+    	}
+    	
+    	else if (blockType == 3){
+    		finalBlockType = 3;
+    		String block = projPath + "\\art\\Lbeam.png";
+    		addBlock(block, startX, startY);
+    	}
+    	
+    	else if (blockType == 4){
+    		finalBlockType = 4;
+    		String block = projPath + "\\art\\Square.png";
+    		addBlock(block, startX, startY);
+    	}
+    	
+    	else if (blockType == 5){
+    		finalBlockType = 5;
+    		String block = projPath + "\\art\\Sbeam.png";
+    		addBlock(block, startX, startY);    		
+    	}
+    	
+    	else if (blockType == 6){
+    		finalBlockType = 2;
+    		String block = projPath + "\\art\\Tbeam.png";
+    		addBlock(block, startX, startY);
+    	}
+    	
+    	else if (blockType == 7){
+    		finalBlockType = 2;
+    		String block = projPath + "\\art\\Zbeam.png";
+    		addBlock(block, startX, startY);
+    	}
+    	    
+    }
+    
+    
     public void makeFrame(){
+    setSize(984, 930);
+    setVisible(true);
+    LayeredPane.add(blockLabel);
     blockLabel.setVisible(false);
-    this.setVisible(true);
 }    
 
     /**
@@ -43,46 +165,28 @@ public class TetrisForm extends javax.swing.JFrame {
     private void initComponents() {
 
         LayeredPane = new javax.swing.JLayeredPane();
-        blockLabel = new javax.swing.JLabel();
         backgroundImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_0Piece.png")); // NOI18N
+        getContentPane().setLayout(null);
 
         javax.swing.GroupLayout LayeredPaneLayout = new javax.swing.GroupLayout(LayeredPane);
         LayeredPane.setLayout(LayeredPaneLayout);
         LayeredPaneLayout.setHorizontalGroup(
             LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backgroundImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LayeredPaneLayout.createSequentialGroup()
-                    .addContainerGap(491, Short.MAX_VALUE)
-                    .addComponent(blockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(329, Short.MAX_VALUE)))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         LayeredPaneLayout.setVerticalGroup(
             LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backgroundImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LayeredPaneLayout.createSequentialGroup()
-                    .addContainerGap(223, Short.MAX_VALUE)
-                    .addComponent(blockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(362, Short.MAX_VALUE)))
+            .addGap(0, 790, Short.MAX_VALUE)
         );
-        LayeredPane.setLayer(blockLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        LayeredPane.setLayer(backgroundImage, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LayeredPane)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LayeredPane)
-        );
+        getContentPane().add(LayeredPane);
+        LayeredPane.setBounds(340, 50, 400, 790);
+
+        backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_0Piece.png")); // NOI18N
+        getContentPane().add(backgroundImage);
+        backgroundImage.setBounds(0, 0, 980, 850);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -126,6 +230,5 @@ public class TetrisForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane LayeredPane;
     private javax.swing.JLabel backgroundImage;
-    private javax.swing.JLabel blockLabel;
     // End of variables declaration//GEN-END:variables
 }

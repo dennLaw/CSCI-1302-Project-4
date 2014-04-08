@@ -18,4 +18,5 @@ public class Tetrimino {
 	public int getType(){
 		return blockType;
 	}
+	
 }
