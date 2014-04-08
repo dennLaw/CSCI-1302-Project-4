@@ -281,4 +281,29 @@ public class TetrisBoard {
 	public int getScore(){
 		return score;
 	}
+	
+	//Twist Right
+	public void clockwise(){
+		
+	}
+	
+	//Twist Left
+	public void counterclockwise(){
+		
+	}
+	
+	//Move Right
+	public void moveRight(){
+		
+	}
+	
+	//Move Left
+	public void moveLeft(){
+		
+	}
+	
+	//Instant Drop
+	public void instantDrop(){
+		
+	}
 }
