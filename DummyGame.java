@@ -14,7 +14,7 @@ public class DummyGame {
     	String projPath = System.getProperty("user.dir");
         TetrisForm tBoard = new TetrisForm();
         tBoard.setVisible(true);
-        tBoard.addBlock(projPath + "\\art\\ViperBadge.jpg");
+        tBoard.addBlock(projPath + "\\art\\Sbeam.png");
         
     }
     
