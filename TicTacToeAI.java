@@ -23,11 +23,39 @@ public class TicTacToeAI extends TicTacToePlayer{
 	}
 	
 	public int toddlerC(int[][] board){
-		return 0;
+		return (int)(Math.random()*3)*10 + (int)(Math.random()*3);
 	}
 	
 	public int intermediateC(int[][] board){
-		return 0;
+		if(board[0][0] == 1 && board[0][1] == 1 || board[1][2] == 1 && board[2][2] == 1 || board[2][0] == 1 && board[1][1] == 1){
+			return 02;
+		}
+		else if(board[0][1] == 1 && board[0][2] == 1 || board[1][0] == 1 && board[2][0] == 1 || board[1][1] == 1 && board[2][2] == 1){
+			return 00;
+		}
+		else if(board[0][0] == 1 && board[0][2] == 1 || board[1][1] == 1 && board[2][1] == 1){
+			return 01;
+		}
+		else if(board[1][0] == 1 && board[1][1] == 1 || board[2][2] == 1 && board[0][2] == 1){
+			return 12;
+		}
+		else if(board[1][0] == 1 && board[1][2] == 1 || board[0][1] == 1 && board[2][1] == 1 || board[0][0] == 1 && board[2][2] == 1 || board[0][2] == 1 && board[2][0] == 1){
+			return 11;
+		}
+		else if(board[1][1] == 1 && board[1][2] == 1 || board[0][0] == 1 && board[2][0] == 1){
+			return 10;
+		}
+		else if(board[2][0] == 1 && board[2][1] == 1 || board[1][1] == 1 && board[1][2] == 1 || board[0][0] == 1 && board[1][1] == 1){
+			return 22;
+		}
+		else if(board[2][0] == 1 && board[2][2] == 1 || board[0][1] == 1 && board[1][1] == 1){
+			return 21;
+		}
+		else if(board[2][1] == 1 && board[2][2] == 1 || board[1][0] == 1 && board[0][0] == 1 || board[0][2] == 1 && board[1][1] == 1){
+			return 20;
+		}
+		
+		return (int)(Math.random()*3)*10 + (int)(Math.random()*3);
 	}
 	
 	public int warGamesC(int[][] board){

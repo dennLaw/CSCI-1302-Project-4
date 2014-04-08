@@ -52,18 +52,32 @@ public class TetrisBoard {
 		if(!blockInPlay){
 			tet = getBlock();
 			
+			checkGameFinish();
 			//Handle loading in the block here.
-			loadBlock();
+			if(!gameFinish){
+				loadBlock();
+			}
 		}
 		
-		checkCollision();
-		
-		//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
-		if(!collisionOnce && blockInPlay){
-			moveDown();
-			System.out.println("MoveDown");
+		if(!gameFinish){
+			checkCollision();
+			
+			//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
+			if(!collisionOnce && blockInPlay){
+				moveDown();
+				System.out.println("MoveDown");
+			}
+			
+			testPrint();
+		}
+	}
+	
+	public void checkGameFinish(){
+		if(tet == null){
+			gameFinish = true;
 		}
 		
+<<<<<<< HEAD
 		//testPrint();
 	
 	}
@@ -73,6 +87,11 @@ public class TetrisBoard {
 		String blockLocation = path;
 		guiBoard.addBlock(blockLocation);
 		
+=======
+		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
+			gameFinish = true;
+		}
+>>>>>>> c346be271e0abd991d736b5697981b85eedcc291
 	}
 	
 	public void testPrint(){
@@ -210,6 +229,7 @@ public class TetrisBoard {
 			}
 		}
 		
+		checkLineClear();
 		blockInPlay = false;
 	}
 	
@@ -217,6 +237,7 @@ public class TetrisBoard {
 	public void checkLineClear(){
 		boolean isDone = false;
 		int countBlock = 0;
+		int countLinesCleared = 0;
 		
 		while(!isDone){
 			isDone = true;
@@ -231,10 +252,13 @@ public class TetrisBoard {
 					if(countBlock == 10){
 						clearLine(y);
 						isDone = false;
+						countLinesCleared++;
 					}
 				}
 			}
 		}
+		
+		lineClearScore(countLinesCleared);
 	}
 	
 	public void clearLine(int lineToClear){
@@ -244,6 +268,21 @@ public class TetrisBoard {
 			for(int x = 0; x < 10; x++){
 				playingBoard[x][y] = tempBoard[x][y-1];
 			}
+		}
+	}
+	
+	public void lineClearScore(int lc){
+		if(lc == 1){
+			addScore(1000);
+		}
+		else if(lc == 2){
+			addScore(5000);
+		}
+		else if(lc == 3){
+			addScore(15000);
+		}
+		else if(lc == 4){
+			addScore(50000);
 		}
 	}
 	
@@ -261,5 +300,30 @@ public class TetrisBoard {
 	
 	public int getScore(){
 		return score;
+	}
+	
+	//Twist Right
+	public void clockwise(){
+		
+	}
+	
+	//Twist Left
+	public void counterclockwise(){
+		
+	}
+	
+	//Move Right
+	public void moveRight(){
+		
+	}
+	
+	//Move Left
+	public void moveLeft(){
+		
+	}
+	
+	//Instant Drop
+	public void instantDrop(){
+		
 	}
 }
