@@ -298,6 +298,7 @@ public class TetrisBoard {
 		for(int y = lineToClear; y > 0; y--){
 			for(int x = 0; x < 10; x++){
 				playingBoard[x][y] = tempBoard[x][y-1];
+				guiBoard.setBlockRow(guiBoard.getBlockRow(x, y - 1), x, y);
 			}
 		}
 	}

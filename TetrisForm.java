@@ -30,6 +30,7 @@ public class TetrisForm extends javax.swing.JFrame {
 	int currentY4 = 0;
 	int width = 0;
 	int height = 0;
+	JLabel[][] placedLabels = new JLabel[10][24];
 	
 	
 	String projPath = System.getProperty("user.dir");
@@ -199,6 +200,24 @@ public class TetrisForm extends javax.swing.JFrame {
     	
     }
     
+    
+    public void wipeBlock(int xCo, int yCo){
+    	
+    	placedLabels[xCo][yCo].setVisible(false);
+    	LayeredPane.remove(placedLabels[xCo][yCo]);
+    	
+    }
+    
+    
+    public void setBlockRow(JLabel block, int xCol, int yRow){
+    	placedLabels[xCol][yRow] = block;
+    }
+    
+    public JLabel getBlockRow (int xPos, int yPos){
+    	return placedLabels[xPos][yPos];
+    }
+    
+    
     public void placeBlock(int xPos, int yPos){
     
     	resetPosition();
@@ -267,6 +286,7 @@ public class TetrisForm extends javax.swing.JFrame {
         
         
         finalBlock.setBounds(xPos * 31, yPos * 31, blockW, blockH);
+        placedLabels[xPos][yPos] = finalBlock;
         blockLabel.setVisible(false);
         block2Label.setVisible(false);
         block3Label.setVisible(false);
