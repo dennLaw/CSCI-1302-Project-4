@@ -65,11 +65,10 @@ public class TetrisBoard {
 			//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
 			if(!collisionOnce && blockInPlay){
 				moveDown();
-<<<<<<< HEAD
+
 				guiBoard.tickDown();
 				System.out.println("MoveDown");
-=======
->>>>>>> a2f28c33f3773a5d53361be4453cd691cc59f3ce
+
 			}
 			
 			testPrint();
@@ -80,34 +79,19 @@ public class TetrisBoard {
 		if(tet == null){
 			gameFinish = true;
 		}
-<<<<<<< HEAD
-		
+
 
 		//testPrint();
 	
-=======
+
 		
 		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
 			gameFinish = true;
 		}
->>>>>>> a2f28c33f3773a5d53361be4453cd691cc59f3ce
+
 	}
 	
-	public void testImage(String path){
-		
-		String blockLocation = path;
-<<<<<<< HEAD
-		//guiBoard.addBlock(blockLocation);
-		
 
-		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
-			gameFinish = true;
-		}
-
-=======
-		guiBoard.addBlock(blockLocation);
->>>>>>> a2f28c33f3773a5d53361be4453cd691cc59f3ce
-	}
 	
 	public void testPrint(){
 		for(int y = 0; y < 24; y++){
