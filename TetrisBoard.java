@@ -72,7 +72,7 @@ public class TetrisBoard {
 				System.out.println("MoveDown");
 
 			}
-			
+			twist();
 			testPrint();
 		}
 	}
@@ -156,8 +156,9 @@ public class TetrisBoard {
 				if(playingBoard[x][y]/10 == 1){
 					blockNum++;
 					playingBoard[x][y+1] = 10 + tet.getType();
-					guiBoard.moveDown(blockNum);
 					playingBoard[x][y] = 0;
+					
+					draw();
 				}
 			}
 		}
@@ -335,7 +336,7 @@ public class TetrisBoard {
 	}
 	
 	//Twist
-	public void Twist(){
+	public void twist(){
 		int xy1 = -1;
 		int xy2 = -1;
 		int xy3 = -1;
@@ -354,7 +355,7 @@ public class TetrisBoard {
 					else if(xy3 == -1){
 						xy3 = x*10+y;
 					}
-					else{
+					else if(xy4 == -1){
 						xy4 = x*10+y;
 					}
 				}
@@ -484,14 +485,16 @@ public class TetrisBoard {
 				}
 			}
 			else if(tet.getOrientation() == 4){
-				if(playingBoard[xy2/10][xy2%10+1] == 0 && playingBoard[xy3/10][xy3%10-1] == 0){
-					playingBoard[xy2/10][xy2%10+1] = 10 + tet.getType();
-					playingBoard[xy3/10][xy3%10-1] = 10 + tet.getType();
-					
-					playingBoard[xy1/10][xy1%10] = 0;
-					playingBoard[xy2/10][xy2%10] = 0;
-					
-					tet.changeOrientation();
+				if(xy3%10 != 0){
+					if(playingBoard[xy2/10][xy2%10+1] == 0 && playingBoard[xy3/10][xy3%10-1] == 0){
+						playingBoard[xy2/10][xy2%10+1] = 10 + tet.getType();
+						playingBoard[xy3/10][xy3%10-1] = 10 + tet.getType();
+						
+						playingBoard[xy1/10][xy1%10] = 0;
+						playingBoard[xy2/10][xy2%10] = 0;
+						
+						tet.changeOrientation();
+					}
 				}
 			}
 		}
@@ -512,10 +515,10 @@ public class TetrisBoard {
 				}
 			}
 			else if(tet.getOrientation() == 2){
-				if(playingBoard[xy1/10][xy1%10-1] == 0 && playingBoard[xy2/10][xy2%10-1] == 0 && playingBoard[xy3/10-1][xy3%10-2] == 0){
+				if(playingBoard[xy1/10][xy1%10-1] == 0 && playingBoard[xy2/10][xy2%10-1] == 0 && playingBoard[xy2/10][xy2%10+1] == 0){
 					playingBoard[xy1/10][xy1%10-1] = 10 + tet.getType();
 					playingBoard[xy2/10][xy2%10-1] = 10 + tet.getType();
-					playingBoard[xy3/10-1][xy3%10-2] = 10 + tet.getType();
+					playingBoard[xy2/10][xy2%10+1] = 10 + tet.getType();
 					
 					playingBoard[xy1/10][xy1%10] = 0;
 					playingBoard[xy3/10][xy3%10] = 0;
@@ -565,7 +568,7 @@ public class TetrisBoard {
 				}
 			}
 			else if(tet.getOrientation() == 2 || tet.getOrientation() == 4){
-				if(xy2/10 != 0){
+				if(xy2/10 != 0 && xy3%10 != 0){
 					if(playingBoard[xy3/10][xy3%10-1] == 0 && playingBoard[xy2/10-1][xy2%10] == 0){
 						playingBoard[xy3/10][xy3%10-1] = 10 + tet.getType();
 						playingBoard[xy2/10-1][xy2%10] = 10 + tet.getType();
@@ -580,11 +583,13 @@ public class TetrisBoard {
 		}
 		else if(tet.getType() == 6){
 			if(tet.getOrientation() == 1){
-				if(playingBoard[xy2/10][xy2%10-1] == 0){
-					playingBoard[xy2/10][xy2%10 - 1] = 10 + tet.getType();
-					playingBoard[xy3/10][xy3%10] = 0;
-					
-					tet.changeOrientation();
+				if(xy2%10 != 0){
+					if(playingBoard[xy2/10][xy2%10-1] == 0){
+						playingBoard[xy2/10][xy2%10 - 1] = 10 + tet.getType();
+						playingBoard[xy3/10][xy3%10] = 0;
+						
+						tet.changeOrientation();
+					}
 				}
 			}
 			else if(tet.getOrientation() == 2){
@@ -644,6 +649,8 @@ public class TetrisBoard {
 				}
 			}
 		}
+		
+		draw();
 	}
 	
 	//Move Right
@@ -665,7 +672,7 @@ public class TetrisBoard {
 		
 		if(canMove){
 			for(int y = 22; y > -1; y--){
-				for(int x = 0; x < 9; x++){
+				for(int x = 9; x > -1; x--){
 					if(playingBoard[x][y]/10 == 1){
 						playingBoard[x+1][y] = 10 + tet.getType();
 						playingBoard[x][y] = 0;
@@ -673,6 +680,8 @@ public class TetrisBoard {
 				}
 			}
 		}
+		
+		draw();
 	}
 	
 	//Move Left
@@ -702,6 +711,8 @@ public class TetrisBoard {
 				}
 			}
 		}
+		
+		draw();
 	}
 	
 	//Instant Drop
@@ -752,37 +763,29 @@ public class TetrisBoard {
 				}
 			}
 		}
+		
+		draw();
 	}
 	
 	public void draw(){
-		int xy1 = -1;
-		int xy2 = -1;
-		int xy3 = -1;
-		int xy4 = -1;
+		int counter = 0;
 		
 		for(int y = 0; y < 24; y++){
 			for(int x = 0; x < 10; x++){
 				if(playingBoard[x][y]/10 == 1){
-					if(xy1 == -1){
-						xy1 = 1;
-						
+					if(counter == 0){
 						guiBoard.setBlockPos(1, x, y);
 					}
-					else if(xy2 == -1){
-						xy2 = 1;
-						
+					else if(counter == 1){
 						guiBoard.setBlockPos(2, x, y);
 					}
-					else if(xy3 == -1){
-						xy3 = 1;
-						
+					else if(counter == 2){
 						guiBoard.setBlockPos(3, x, y);
 					}
 					else{
-						xy4 = 1;
-						
 						guiBoard.setBlockPos(4, x, y);
 					}
+					counter++;
 				}
 			}
 		}
