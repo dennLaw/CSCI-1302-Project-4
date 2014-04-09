@@ -1,3 +1,6 @@
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 public class TetrisBoard {
 	
 	//Make a Queue for Tetriminos here. Call the queue tetQ.
@@ -45,6 +48,8 @@ public class TetrisBoard {
 		guiBoard.makeFrame();
 		
 	}
+	
+	
 	
 	//Ticks every interval. All game logic occurs here.
 	public void tick() throws InterruptedException{

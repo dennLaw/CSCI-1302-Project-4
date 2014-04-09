@@ -8,6 +8,7 @@
  *
  * @author KLZ de Panama
  */
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -36,7 +37,6 @@ public class TetrisForm extends javax.swing.JFrame {
 	int width = 0;
 	int height = 0;
 	JLabel[][] placedLabels = new JLabel[10][24];
-	KeyListener keyPress;
 	
 	
 	String projPath = System.getProperty("user.dir");
@@ -136,10 +136,10 @@ public class TetrisForm extends javax.swing.JFrame {
     }
     
     
-    public void moveLeft(KeyEvent e){
+    public void moveLeft(){
         
     	
-    	System.out.println(e.getKeyChar());
+    	System.out.println("move left");
     	
     }   
     
@@ -463,11 +463,43 @@ public class TetrisForm extends javax.swing.JFrame {
     	    
     }
     
+	 private class MyKeyListener extends KeyAdapter{
+	        public void keyPressed(KeyEvent e){
+	            switch (e.getKeyCode()){
+	                case KeyEvent.VK_LEFT:
+	                	moveLeft();
+	                break;
+	                
+	                case KeyEvent.VK_RIGHT:
+	                	moveRight();
+	                break;
+	                
+	                case KeyEvent.VK_DOWN:
+	                	drop();
+	                	break;
+	            }
+	        }
+	        public void keyReleased(KeyEvent e){
+	            switch (e.getKeyCode()){
+	                case KeyEvent.VK_LEFT:
+	                break;
+	                case KeyEvent.VK_RIGHT:
+	                break;
+	                case KeyEvent.VK_UP:
+	                break;
+	                case KeyEvent.VK_DOWN:
+	                break;
+	            }
+	        }
+	    }
+    
     
     public void makeFrame(){
     setSize(980, 930);
     setVisible(true);
+    MyKeyListener watchKeys = new MyKeyListener();
     
+    LayeredPane.addKeyListener(watchKeys);    
     LayeredPane.add(blockLabel);
     LayeredPane.add(block2Label);
     LayeredPane.add(block3Label);
@@ -478,10 +510,6 @@ public class TetrisForm extends javax.swing.JFrame {
     block3Label.setVisible(false);
     block4Label.setVisible(false);
     
-    blockLabel.addKeyListener(keyPress);
-    block2Label.addKeyListener(keyPress);
-    block3Label.addKeyListener(keyPress);
-    block4Label.addKeyListener(keyPress);
 }    
 
     /**
