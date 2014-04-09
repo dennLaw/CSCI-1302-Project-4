@@ -10,13 +10,27 @@ public class Tetrimino {
 	 * 		7.	Z
 	 */
 	private int blockType;
+	private int orientation;
 	
 	public Tetrimino(int type){
 		blockType = type;
+		orientation = 1;
 	}
 	
 	public int getType(){
 		return blockType;
 	}
 	
+	public void changeOrientation(){
+		if(orientation != 4){
+			orientation++;
+		}
+		else{
+			orientation = 1;
+		}
+	}
+	
+	public int getOrientation(){
+		return orientation;
+	}
 }
