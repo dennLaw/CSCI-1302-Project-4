@@ -10,6 +10,8 @@
  */
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -526,4 +528,20 @@ public class TetrisForm extends javax.swing.JFrame {
     private javax.swing.JLayeredPane LayeredPane;
     private javax.swing.JLabel backgroundImage;
     // End of variables declaration//GEN-END:variables
+    
+    private class MainListener implements KeyListener{
+		
+		public void keyPressed(KeyEvent event){
+			
+			
+		}
+		public void keyReleased(KeyEvent event){
+			
+			
+		}
+		public void keyTyped(KeyEvent event){
+			
+			
+		}
+	}
 }
