@@ -7,11 +7,9 @@ public class P4Arcade {
 		TetrisBoard tetB = new TetrisBoard();
 		tetB.createForm();
 		//tetB.tick();
-		int i = 0;
 		
-		while(i < 25){
+		while(!tetB.gameFinished()){
 			tetB.tick();
-			i++;
 		}
 	}
 

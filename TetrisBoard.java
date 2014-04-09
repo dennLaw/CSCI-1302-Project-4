@@ -81,13 +81,8 @@ public class TetrisBoard {
 		if(tet == null){
 			gameFinish = true;
 		}
-
-
-		//testPrint();
-	
-
 		
-		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0] != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0] != 1 ){
+		if(playingBoard[4][0]%10 != 0 && playingBoard[4][0]/10 != 1 || playingBoard[5][0]%10 != 0 && playingBoard[5][0]/10 != 1 ){
 			gameFinish = true;
 		}
 
@@ -275,8 +270,10 @@ public class TetrisBoard {
 			countBlock = 0;
 		
 			for(int y = 0; y < 22; y++){
+				countBlock = 0;
+				
 				for(int x = 0; x < 10; x++){
-					if(!(playingBoard[x][y] == 0)){
+					if(playingBoard[x][y]/10 == 0 && playingBoard[x][y]%10 != 0){
 						countBlock++;
 					}
 					
