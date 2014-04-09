@@ -53,8 +53,8 @@ public class TetrisForm extends javax.swing.JFrame {
     	blockLabel.setIcon(blockPic);
         LayeredPane.moveToFront(blockLabel);
         
-        startingX = 33*xCoord;
-        startingY = 33*yCoord;
+        startingX = 31*xCoord;
+        startingY = 31*yCoord;
         currentX = startingX;
         currentY = startingY;
         width = blockPic.getIconWidth();
@@ -68,8 +68,8 @@ public class TetrisForm extends javax.swing.JFrame {
     	block2Label.setIcon(blockPic);
         LayeredPane.moveToFront(block2Label);
         
-        startingX = 33*xCoord;
-        startingY = 33*yCoord;
+        startingX = 31*xCoord;
+        startingY = 31*yCoord;
         currentX2 = startingX;
         currentY2 = startingY;
         width = blockPic.getIconWidth();
@@ -83,8 +83,8 @@ public class TetrisForm extends javax.swing.JFrame {
         	block3Label.setIcon(blockPic);
             LayeredPane.moveToFront(block3Label);
             
-            startingX = 33*xCoord;
-            startingY = 33*yCoord;
+            startingX = 31*xCoord;
+            startingY = 31*yCoord;
             currentX3 = startingX;
             currentY3 = startingY;
             width = blockPic.getIconWidth();
@@ -98,8 +98,8 @@ public class TetrisForm extends javax.swing.JFrame {
         	block4Label.setIcon(blockPic);
             LayeredPane.moveToFront(block4Label);
             
-            startingX = 33*xCoord;
-            startingY = 33*yCoord;
+            startingX = 31*xCoord;
+            startingY = 31*yCoord;
             currentX4 = startingX;
             currentY4 = startingY;
             width = blockPic.getIconWidth();
@@ -144,22 +144,50 @@ public class TetrisForm extends javax.swing.JFrame {
     public void moveDown(int blockID){
     	
     	if (blockID == 1){
-        	currentY = currentY + 33;
+        	currentY = currentY + 31;
         	blockLabel.setBounds(currentX, currentY, width, height);
     	}
     	
     	else if(blockID == 2){
-        	currentY2 = currentY2 + 33;
+        	currentY2 = currentY2 + 31;
         	block2Label.setBounds(currentX2, currentY2, width, height);
     	}
     	
     	else if(blockID == 3){
-        	currentY3 = currentY3 + 33;
+        	currentY3 = currentY3 + 31;
         	block3Label.setBounds(currentX3, currentY3, width, height);
     	}
     	
     	else if(blockID == 4){
-        	currentY4 = currentY4 + 33;
+        	currentY4 = currentY4 + 31;
+        	block4Label.setBounds(currentX4, currentY4, width, height);
+    	}
+
+    }
+    
+    public void setBlockPos(int blockID, int xPos, int yPos){
+    	
+    	if (blockID == 1){
+    		currentX = currentX*xPos;
+        	currentY = currentY*yPos;
+        	blockLabel.setBounds(currentX, currentY, width, height);
+    	}
+    	
+    	else if(blockID == 2){
+    		currentX2 = currentX2*xPos;
+        	currentY2 = currentY2*yPos;
+        	block2Label.setBounds(currentX2, currentY2, width, height);
+    	}
+    	
+    	else if(blockID == 3){
+    		currentX = currentX3*xPos;
+        	currentY = currentY3*yPos;
+        	block3Label.setBounds(currentX3, currentY3, width, height);
+    	}
+    	
+    	else if(blockID == 4){
+    		currentX = currentX4*xPos;
+        	currentY = currentY4*yPos;
         	block4Label.setBounds(currentX4, currentY4, width, height);
     	}
 
@@ -238,7 +266,7 @@ public class TetrisForm extends javax.swing.JFrame {
         LayeredPane.moveToFront(finalBlock);
         
         
-        finalBlock.setBounds(xPos * 33, yPos * 33, blockW, blockH);
+        finalBlock.setBounds(xPos * 31, yPos * 31, blockW, blockH);
         blockLabel.setVisible(false);
         block2Label.setVisible(false);
         block3Label.setVisible(false);
@@ -440,19 +468,19 @@ public class TetrisForm extends javax.swing.JFrame {
         LayeredPane.setLayout(LayeredPaneLayout);
         LayeredPaneLayout.setHorizontalGroup(
             LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 330, Short.MAX_VALUE)
+            .addGap(0, 310, Short.MAX_VALUE)
         );
         LayeredPaneLayout.setVerticalGroup(
             LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 759, Short.MAX_VALUE)
+            .addGap(0, 744, Short.MAX_VALUE)
         );
 
         getContentPane().add(LayeredPane);
-        LayeredPane.setBounds(299, 62, 330, 759);
+        LayeredPane.setBounds(281, 70, 310, 744);
 
         backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_0Piece.png")); // NOI18N
         getContentPane().add(backgroundImage);
-        backgroundImage.setBounds(0, 0, 920, 850);
+        backgroundImage.setBounds(0, 0, 850, 850);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
