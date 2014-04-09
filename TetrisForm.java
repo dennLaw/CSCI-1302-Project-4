@@ -21,13 +21,22 @@ public class TetrisForm extends javax.swing.JFrame {
 	int startingX = 0;
 	int startingY = 0;
 	int currentX = 0;
+	int currentX2 = 0;
+	int currentX3 = 0;
+	int currentX4 = 0;
 	int currentY = 0;
+	int currentY2 = 0;
+	int currentY3 = 0;
+	int currentY4 = 0;
 	int width = 0;
 	int height = 0;
 	
 	
 	String projPath = System.getProperty("user.dir");
         JLabel blockLabel = new JLabel();
+        JLabel block2Label = new JLabel();
+        JLabel block3Label = new JLabel();
+        JLabel block4Label = new JLabel();
 	
         
 	public TetrisForm() {
@@ -35,15 +44,17 @@ public class TetrisForm extends javax.swing.JFrame {
     }
     
 	
-    public void addBlock(String fileLocation, int xCoord, int yCoord)
+    public void addBlock(int pieceNum, String fileLocation, int xCoord, int yCoord)
     {
     	String addedBlock = fileLocation;
         ImageIcon blockPic = new ImageIcon(addedBlock);
+        
+        if (pieceNum == 1){
     	blockLabel.setIcon(blockPic);
         LayeredPane.moveToFront(blockLabel);
         
-        startingX = 39*xCoord;
-        startingY = 39*yCoord;
+        startingX = 33*xCoord;
+        startingY = 33*yCoord;
         currentX = startingX;
         currentY = startingY;
         width = blockPic.getIconWidth();
@@ -51,6 +62,54 @@ public class TetrisForm extends javax.swing.JFrame {
         setPosition(blockLabel, startingX, startingY);
         
         blockLabel.setVisible(true);
+        }
+        
+        else if (pieceNum == 2){
+    	block2Label.setIcon(blockPic);
+        LayeredPane.moveToFront(block2Label);
+        
+        startingX = 33*xCoord;
+        startingY = 33*yCoord;
+        currentX2 = startingX;
+        currentY2 = startingY;
+        width = blockPic.getIconWidth();
+        height = blockPic.getIconHeight();
+        setPosition(block2Label, startingX, startingY);
+        
+        block2Label.setVisible(true);
+        }
+        
+        else if (pieceNum == 3){
+        	block3Label.setIcon(blockPic);
+            LayeredPane.moveToFront(block3Label);
+            
+            startingX = 33*xCoord;
+            startingY = 33*yCoord;
+            currentX3 = startingX;
+            currentY3 = startingY;
+            width = blockPic.getIconWidth();
+            height = blockPic.getIconHeight();
+            setPosition(block3Label, startingX, startingY);
+            
+            block3Label.setVisible(true);
+            }
+        
+        else if (pieceNum == 4){
+        	block4Label.setIcon(blockPic);
+            LayeredPane.moveToFront(block4Label);
+            
+            startingX = 33*xCoord;
+            startingY = 33*yCoord;
+            currentX4 = startingX;
+            currentY4 = startingY;
+            width = blockPic.getIconWidth();
+            height = blockPic.getIconHeight();
+            setPosition(block4Label, startingX, startingY);
+            
+            block4Label.setVisible(true);
+            }
+        
+        
     }
     
     
@@ -59,9 +118,13 @@ public class TetrisForm extends javax.swing.JFrame {
     }
     
     
-    public void resetPosition(JLabel blok){
+    public void resetPosition(){
     
-    blok.setBounds(startingX, startingY, width, height);
+    blockLabel.setBounds(startingX, startingY, width, height);
+    block2Label.setBounds(startingX, startingY, width, height);
+    block3Label.setBounds(startingX, startingY, width, height);
+    block4Label.setBounds(startingX, startingY, width, height);
+    
     }
     
     
@@ -77,72 +140,267 @@ public class TetrisForm extends javax.swing.JFrame {
         
     }
     
-    public void tickDown(){
+    
+    public void moveDown(int blockID){
     	
-    	currentY = currentY + 10;
-        blockLabel.setBounds(currentX, currentY, width, height);
+    	if (blockID == 1){
+        	currentY = currentY + 33;
+        	blockLabel.setBounds(currentX, currentY, width, height);
+    	}
+    	
+    	else if(blockID == 2){
+        	currentY2 = currentY2 + 33;
+        	block2Label.setBounds(currentX2, currentY2, width, height);
+    	}
+    	
+    	else if(blockID == 3){
+        	currentY3 = currentY3 + 33;
+        	block3Label.setBounds(currentX3, currentY3, width, height);
+    	}
+    	
+    	else if(blockID == 4){
+        	currentY4 = currentY4 + 33;
+        	block4Label.setBounds(currentX4, currentY4, width, height);
+    	}
+
     }
     
+    public void clearBlockType(){
+    	
+    	finalBlockType = 0;
+    	
+    }
     
-    public void placeBlock(){
+    public void placeBlock(int xPos, int yPos){
     
-    	resetPosition(blockLabel);
+    	resetPosition();
     	JLabel finalBlock = new JLabel();
-    	ImageIcon blockPic = new ImageIcon(projPath + "\\art\\IbeamG.png");
-    	finalBlock.setIcon(blockPic);
-        LayeredPane.add(finalBlock);
+    	int blockW = 0;
+    	int blockH = 0;
+    	
+    	if (finalBlockType == 1)
+    	{
+    		ImageIcon blockPic = new ImageIcon(projPath + "\\art\\1.png");
+    		finalBlock.setIcon(blockPic);
+    		blockW = blockPic.getIconWidth();
+    		blockH = blockPic.getIconHeight();
+    	}
+    	
+    	else if (finalBlockType == 2)
+    	{
+    		ImageIcon blockPic = new ImageIcon(projPath + "\\art\\2.png");
+    		finalBlock.setIcon(blockPic);
+    		blockW = blockPic.getIconWidth();
+    		blockH = blockPic.getIconHeight();
+    	}
+    	
+    	else if (finalBlockType == 3)
+    	{
+    		ImageIcon blockPic = new ImageIcon(projPath + "\\art\\3.png");
+    		finalBlock.setIcon(blockPic);
+    		blockW = blockPic.getIconWidth();
+    		blockH = blockPic.getIconHeight();
+    	}
+    	
+    	else if (finalBlockType == 4)
+    	{
+    		ImageIcon blockPic = new ImageIcon(projPath + "\\art\\4.png");
+    		finalBlock.setIcon(blockPic);
+    		blockW = blockPic.getIconWidth();
+    		blockH = blockPic.getIconHeight();
+    	}
+    	
+    	else if (finalBlockType == 5)
+    	{
+    		ImageIcon blockPic = new ImageIcon(projPath + "\\art\\5.png");
+    		finalBlock.setIcon(blockPic);
+    		blockW = blockPic.getIconWidth();
+    		blockH = blockPic.getIconHeight();
+    	}
+    	
+    	else if (finalBlockType == 6)
+    	{
+    		ImageIcon blockPic = new ImageIcon(projPath + "\\art\\6.png");
+    		finalBlock.setIcon(blockPic);
+    		blockW = blockPic.getIconWidth();
+    		blockH = blockPic.getIconHeight();
+    	}
+    	
+    	else if (finalBlockType == 7)
+    	{
+    		ImageIcon blockPic = new ImageIcon(projPath + "\\art\\7.png");
+    		finalBlock.setIcon(blockPic);
+    		blockW = blockPic.getIconWidth();
+    		blockH = blockPic.getIconHeight();
+    	}
+        
+    	LayeredPane.add(finalBlock);
         LayeredPane.moveToFront(finalBlock);
         
         
-        finalBlock.setBounds(currentX, currentY, width, height);
+        finalBlock.setBounds(xPos * 33, yPos * 33, blockW, blockH);
         blockLabel.setVisible(false);
+        block2Label.setVisible(false);
+        block3Label.setVisible(false);
+        block4Label.setVisible(false);
     	
     }
     
     
-    public void setShape(int blockType, int startX, int startY){
+    public void setShape(int blockNumber, int blockType, int startX, int startY){
     	
     	if (blockType == 1)
     	{
     		finalBlockType = 1;
-    		String block = projPath + "\\art\\Ibeam.png";
-    		addBlock(block, startX, startY);
+    		String block = projPath + "\\art\\1.png";
+    			
+    			if (blockNumber == 1){
+    				addBlock(1, block, startX, startY);
+    			}
+    			
+    			else if (blockNumber == 2){
+    				addBlock(2, block, startX, startY);
+    			}
+    			
+    			else if (blockNumber == 3){
+    				addBlock(3, block, startX, startY);
+    			}
+    			
+    			else if (blockNumber == 4){
+    				addBlock(4, block, startX, startY);
+    			}
     	}
+    	
     	
     	else if (blockType == 2){
     		finalBlockType = 2;
-    		String block = projPath + "\\art\\Jbeam.png";
-    		addBlock(block, startX, startY);
+    		String block = projPath + "\\art\\2.png";
+			
+    		if (blockNumber == 1){
+				addBlock(1, block, startX, startY);
+			}
+			
+			else if (blockNumber == 2){
+				addBlock(2, block, startX, startY);
+			}
+			
+			else if (blockNumber == 3){
+				addBlock(3, block, startX, startY);
+			}
+			
+			else if (blockNumber == 4){
+				addBlock(4, block, startX, startY);
+			}
     	}
+    	
     	
     	else if (blockType == 3){
     		finalBlockType = 3;
-    		String block = projPath + "\\art\\Lbeam.png";
-    		addBlock(block, startX, startY);
+    		String block = projPath + "\\art\\3.png";
+			
+    		if (blockNumber == 1){
+				addBlock(1, block, startX, startY);
+			}
+			
+			else if (blockNumber == 2){
+				addBlock(2, block, startX, startY);
+			}
+			
+			else if (blockNumber == 3){
+				addBlock(3, block, startX, startY);
+			}
+			
+			else if (blockNumber == 4){
+				addBlock(4, block, startX, startY);
+			}
     	}
+    	
     	
     	else if (blockType == 4){
     		finalBlockType = 4;
-    		String block = projPath + "\\art\\Square.png";
-    		addBlock(block, startX, startY);
+    		String block = projPath + "\\art\\4.png";
+			
+    		if (blockNumber == 1){
+				addBlock(1, block, startX, startY);
+			}
+			
+			else if (blockNumber == 2){
+				addBlock(2, block, startX, startY);
+			}
+			
+			else if (blockNumber == 3){
+				addBlock(3, block, startX, startY);
+			}
+			
+			else if (blockNumber == 4){
+				addBlock(4, block, startX, startY);
+			}
     	}
+    	
     	
     	else if (blockType == 5){
     		finalBlockType = 5;
-    		String block = projPath + "\\art\\Sbeam.png";
-    		addBlock(block, startX, startY);    		
+    		String block = projPath + "\\art\\5.png";
+			
+    		if (blockNumber == 1){
+				addBlock(1, block, startX, startY);
+			}
+			
+			else if (blockNumber == 2){
+				addBlock(2, block, startX, startY);
+			}
+			
+			else if (blockNumber == 3){
+				addBlock(3, block, startX, startY);
+			}
+			
+			else if (blockNumber == 4){
+				addBlock(4, block, startX, startY);
+			}    		
     	}
+    	
     	
     	else if (blockType == 6){
     		finalBlockType = 2;
-    		String block = projPath + "\\art\\Tbeam.png";
-    		addBlock(block, startX, startY);
+    		String block = projPath + "\\art\\6.png";
+			
+    		if (blockNumber == 1){
+				addBlock(1, block, startX, startY);
+			}
+			
+			else if (blockNumber == 2){
+				addBlock(2, block, startX, startY);
+			}
+			
+			else if (blockNumber == 3){
+				addBlock(3, block, startX, startY);
+			}
+			
+			else if (blockNumber == 4){
+				addBlock(4, block, startX, startY);
+			}
     	}
+    	
     	
     	else if (blockType == 7){
     		finalBlockType = 2;
-    		String block = projPath + "\\art\\Zbeam.png";
-    		addBlock(block, startX, startY);
+    		String block = projPath + "\\art\\7.png";
+			
+    		if (blockNumber == 1){
+				addBlock(1, block, startX, startY);
+			}
+			
+			else if (blockNumber == 2){
+				addBlock(2, block, startX, startY);
+			}
+			
+			else if (blockNumber == 3){
+				addBlock(3, block, startX, startY);
+			}
+			
+			else if (blockNumber == 4){
+				addBlock(4, block, startX, startY);
+			}
     	}
     	    
     }
@@ -151,8 +409,16 @@ public class TetrisForm extends javax.swing.JFrame {
     public void makeFrame(){
     setSize(984, 930);
     setVisible(true);
+    
     LayeredPane.add(blockLabel);
+    LayeredPane.add(block2Label);
+    LayeredPane.add(block3Label);
+    LayeredPane.add(block4Label);
+   
     blockLabel.setVisible(false);
+    block2Label.setVisible(false);
+    block3Label.setVisible(false);
+    block4Label.setVisible(false);
 }    
 
     /**
@@ -174,19 +440,19 @@ public class TetrisForm extends javax.swing.JFrame {
         LayeredPane.setLayout(LayeredPaneLayout);
         LayeredPaneLayout.setHorizontalGroup(
             LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 330, Short.MAX_VALUE)
         );
         LayeredPaneLayout.setVerticalGroup(
             LayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 790, Short.MAX_VALUE)
+            .addGap(0, 759, Short.MAX_VALUE)
         );
 
         getContentPane().add(LayeredPane);
-        LayeredPane.setBounds(340, 50, 400, 790);
+        LayeredPane.setBounds(299, 62, 330, 759);
 
         backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_0Piece.png")); // NOI18N
         getContentPane().add(backgroundImage);
-        backgroundImage.setBounds(0, 0, 980, 850);
+        backgroundImage.setBounds(0, 0, 920, 850);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

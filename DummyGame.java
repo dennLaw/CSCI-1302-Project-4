@@ -14,19 +14,15 @@ public class DummyGame {
     	
         TetrisForm tBoard = new TetrisForm();
         tBoard.makeFrame();
-        //tBoard.setShape(1);
-        for (int i = 0; i <= 10; i++){
+        tBoard.setShape(1, 4, 5, 0);
+        //tBoard.moveDown();
+       /*for (int i = 0; i <= 10; i++){
         	tBoard.tickDown();
         }
-        tBoard.placeBlock();
-        //tBoard.setShape(1);
-        tBoard.placeBlock();
-        //tBoard.tickDown();
-        //tBoard.placeBlock();
-        //tBoard.tickDown();
-        //System.out.println(user.dir);
-        //String projPath = System.getProperty("user.dir");
-       // System.out.println(projPath);
+       */
+       tBoard.placeBlock(2, 23);
+
+       
         
     }
     

@@ -6,15 +6,14 @@ public class P4Arcade {
 		String projPath = System.getProperty("user.dir");
 		TetrisBoard tetB = new TetrisBoard();
 		tetB.createForm();
-		tetB.tick();
-		tetB.tick();
-		//int i = 0;
+		//tetB.tick();
+		int i = 0;
 		
-		/*while(i < 100){
+		while(i < 25){
 			tetB.tick();
 			
 			i++;
-		}*/
+		}
 	}
 
 }
