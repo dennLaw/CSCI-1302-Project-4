@@ -72,7 +72,7 @@ public class TetrisBoard {
 				System.out.println("MoveDown");
 
 			}
-			twist();
+			
 			testPrint();
 		}
 	}
@@ -717,6 +717,7 @@ public class TetrisBoard {
 	
 	//Instant Drop
 	public void instantDrop(){
+		/*
 		int shortestDrop = 50;
 		int lowestPlayingInColumn = 0;
 		int lowestPlayingUnit = 0;
@@ -724,10 +725,10 @@ public class TetrisBoard {
 		for(int x = 0; x < 10; x++){
 			lowestPlayingInColumn = 0;
 			
-			for(int y = 0; y < 23; y--){
+			for(int y = 0; y < 23; y++){
 				if(playingBoard[x][y]/10 == 1){
 					lowestPlayingInColumn = y;
-					
+				
 					if(y > lowestPlayingUnit){
 						lowestPlayingUnit = y;
 					}
@@ -741,11 +742,14 @@ public class TetrisBoard {
 			}
 		}
 		
+		//By now, lowestPlayingUnit is the y value of the lowest playing unit on the board.
+		//ShortestDrop denotes the farthest the block can fall without breaking itself.
+
 		if(shortestDrop != 50){
-			for(int y = 22; y > -1; y--){
+			for(int y = 23; y > -1; y--){
 				for(int x = 0; x < 10; x++){
 					//Checks for blocks in play and then moves them down one.
-					if(playingBoard[x][y]/10 == 1){
+					if(playingBoard[x][y]/10 == 1 && (y+shortestDrop) > -1){
 						playingBoard[x][y+shortestDrop] = 10 + tet.getType();
 						playingBoard[x][y] = 0;
 					}
@@ -753,18 +757,28 @@ public class TetrisBoard {
 			}
 		}
 		else{
-			for(int y = 22; y > -1; y--){
+			for(int y = 23; y > -1; y--){
 				for(int x = 0; x < 10; x++){
 					//Checks for blocks in play and then moves them down one.
-					if(playingBoard[x][y]/10 == 1){
+					if(playingBoard[x][y]/10 == 1 && (y+23-lowestPlayingUnit < 24)){
 						playingBoard[x][y+(23-lowestPlayingUnit)] = 10 + tet.getType();
 						playingBoard[x][y] = 0;
 					}
 				}
 			}
 		}
+		*/
 		
-		draw();
+		//Calling moveDown until collides. Less efficient time and space-wise, but the code above it bugged.
+		checkCollision();
+		
+		while(!collisionOnce && blockInPlay){
+			moveDown();
+			
+			checkCollision();
+		}
+		
+		//draw();
 	}
 	
 	public void draw(){
