@@ -753,4 +753,38 @@ public class TetrisBoard {
 			}
 		}
 	}
+	
+	public void draw(){
+		int xy1 = -1;
+		int xy2 = -1;
+		int xy3 = -1;
+		int xy4 = -1;
+		
+		for(int y = 0; y < 24; y++){
+			for(int x = 0; x < 10; x++){
+				if(playingBoard[x][y]/10 == 1){
+					if(xy1 == -1){
+						xy1 = 1;
+						
+						guiBoard.setBlockPos(1, x, y);
+					}
+					else if(xy1 == -1){
+						xy2 = 1;
+						
+						guiBoard.setBlockPos(2, x, y);
+					}
+					else if(xy1 == -1){
+						xy3 = 1;
+						
+						guiBoard.setBlockPos(3, x, y);
+					}
+					else{
+						xy4 = 1;
+						
+						guiBoard.setBlockPos(4, x, y);
+					}
+				}
+			}
+		}
+	}
 }
