@@ -8,6 +8,9 @@
  *
  * @author KLZ de Panama
  */
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -31,6 +34,7 @@ public class TetrisForm extends javax.swing.JFrame {
 	int width = 0;
 	int height = 0;
 	JLabel[][] placedLabels = new JLabel[10][24];
+	KeyListener keyPress;
 	
 	
 	String projPath = System.getProperty("user.dir");
@@ -130,8 +134,11 @@ public class TetrisForm extends javax.swing.JFrame {
     }
     
     
-    public void moveLeft(){
+    public void moveLeft(KeyEvent e){
         
+    	
+    	System.out.println(e.getKeyChar());
+    	
     }   
     
     public void moveRight(){
@@ -170,20 +177,20 @@ public class TetrisForm extends javax.swing.JFrame {
     public void setBlockPos(int blockID, int xPos, int yPos){
     	
     	if (blockID == 1){
-    		currentX = currentX*xPos;
-        	currentY = currentY*yPos;
+    		currentX = 31*xPos;
+        	currentY = 31*yPos;
         	blockLabel.setBounds(currentX, currentY, width, height);
     	}
     	
     	else if(blockID == 2){
-    		currentX2 = currentX2*xPos;
-        	currentY2 = currentY2*yPos;
+    		currentX2 = 31*xPos;
+        	currentY2 = 31*yPos;
         	block2Label.setBounds(currentX2, currentY2, width, height);
     	}
     	
     	else if(blockID == 3){
-    		currentX = currentX3*xPos;
-        	currentY = currentY3*yPos;
+    		currentX = 31*xPos;
+        	currentY = 31*yPos;
         	block3Label.setBounds(currentX3, currentY3, width, height);
     	}
     	
@@ -468,6 +475,11 @@ public class TetrisForm extends javax.swing.JFrame {
     block2Label.setVisible(false);
     block3Label.setVisible(false);
     block4Label.setVisible(false);
+    
+    blockLabel.addKeyListener(keyPress);
+    block2Label.addKeyListener(keyPress);
+    block3Label.addKeyListener(keyPress);
+    block4Label.addKeyListener(keyPress);
 }    
 
     /**
