@@ -43,6 +43,7 @@ public class TetrisForm extends javax.swing.JFrame {
 	public TetrisForm() {
         initComponents();
     }
+	
     
 	
     public void addBlock(int pieceNum, String fileLocation, int xCoord, int yCoord)
@@ -455,7 +456,7 @@ public class TetrisForm extends javax.swing.JFrame {
     
     
     public void makeFrame(){
-    setSize(984, 930);
+    setSize(980, 930);
     setVisible(true);
     
     LayeredPane.add(blockLabel);
