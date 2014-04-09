@@ -195,8 +195,8 @@ public class TetrisForm extends javax.swing.JFrame {
     	}
     	
     	else if(blockID == 4){
-    		currentX = currentX4*xPos;
-        	currentY = currentY4*yPos;
+    		currentX = 31*xPos;
+        	currentY = 31*yPos;
         	block4Label.setBounds(currentX4, currentY4, width, height);
     	}
 
