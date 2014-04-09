@@ -498,7 +498,7 @@ public class TetrisForm extends javax.swing.JFrame {
         getContentPane().add(LayeredPane);
         LayeredPane.setBounds(281, 70, 310, 744);
 
-        backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_0Piece.png")); // NOI18N
+        backgroundImage.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\background_0Piece.png")); // NOI18N
         getContentPane().add(backgroundImage);
         backgroundImage.setBounds(0, 0, 850, 850);
 
