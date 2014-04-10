@@ -130,9 +130,20 @@ public class TetrisForm extends javax.swing.JFrame {
     	blok.setBounds(x, y, width, height);
     }
     
+    public void resetCurrentCoord(){
+    	currentX = startingX;
+    	currentX2 = startingX;
+    	currentX3 = startingX;
+    	currentX4 = startingX;
+    	currentY = startingY;
+    	currentY2 = startingY;
+    	currentY3 = startingY;
+    	currentY4 = startingY;
+    }
     
     public void resetPosition(){
     
+    resetCurrentCoord();
     blockLabel.setBounds(startingX, startingY, width, height);
     block2Label.setBounds(startingX, startingY, width, height);
     block3Label.setBounds(startingX, startingY, width, height);
@@ -215,16 +226,49 @@ public class TetrisForm extends javax.swing.JFrame {
     	
     }
     
-    public boolean checkForBlock(int xCo, int yCo){
+    
+    public int getActiveBlockPosX(int blockID){
     	
-    	boolean blockThere = false;
-    	String isThere = String.valueOf(placedLabels[xCo][yCo]);
-    	if (isThere != null){
-    		blockThere = true;
-    		System.out.println("block is here");
+    	if (blockID == 1){
+    		return currentX;
     	}
-    	return blockThere;
     	
+    	else if (blockID == 2){
+    		return currentX2;
+    	}
+    	
+    	else if (blockID == 3){
+    		return currentX3;
+    	}
+    	
+    	else if (blockID == 4){
+    		return currentX4;
+    	}
+    	
+    	else
+    		return startingX;
+    }
+    
+    public int getActiveBlockPosY(int blockID){
+    	
+    	if (blockID == 1){
+    		return currentY;
+    	}
+    	
+    	else if (blockID == 2){
+    		return currentY2;
+    	}
+    	
+    	else if (blockID == 3){
+    		return currentY3;
+    	}
+    	
+    	else if (blockID == 4){
+    		return currentY4;
+    	}
+    	
+    	else
+    		return startingY;
     }
     
     
@@ -237,10 +281,9 @@ public class TetrisForm extends javax.swing.JFrame {
     
     public boolean checkPos(int xCo, int yCo){
     	boolean somethingThere = false;
+
     	
-    	String placedBlocks = String.valueOf(placedLabels[xCo][yCo]);
-    	
-    	if(placedBlocks != "null"){
+    	if(placedLabels[xCo][yCo] != null){
     		somethingThere = true;
     	}
     	
@@ -252,19 +295,26 @@ public class TetrisForm extends javax.swing.JFrame {
     
     public void wipeBlock(int xCo, int yCo){
     	
-    	placedLabels[xCo][yCo].setVisible(false);
-    	LayeredPane.remove(placedLabels[xCo][yCo]);
+    	boolean somethingThere = checkPos(xCo, yCo);
+    	
+    	if (somethingThere == true){
+        	placedLabels[xCo][yCo].setVisible(false);
+        	LayeredPane.remove(placedLabels[xCo][yCo]);
+        	remove(placedLabels[xCo][yCo]);
+    	}
+    	
     	placedLabels[xCo][yCo] = null;
     }
     
     
     public void setBlockRow(JLabel block, int xCol, int yRow){
+     	
+    	boolean blockThere = false; 	
+     	
     	placedLabels[xCol][yRow] = block;
-    	
-    	boolean blockThere = checkPos(xCol, yRow);
+    	blockThere = checkPos(xCol, yRow);
     	
     	if (blockThere == true){
-    		System.out.println("block is here");
     	block.setBounds(xCol*31, yRow*31, 31, 31);
     	}
     	
@@ -282,6 +332,7 @@ public class TetrisForm extends javax.swing.JFrame {
     	JLabel finalBlock = new JLabel();
     	int blockW = 0;
     	int blockH = 0;
+    	boolean blockAlreadyThere = checkPos(xPos, yPos);
     	
     	if (finalBlockType == 1)
     	{
@@ -339,6 +390,11 @@ public class TetrisForm extends javax.swing.JFrame {
     		blockH = blockPic.getIconHeight();
     	}
         
+    	if (blockAlreadyThere == true){
+    		wipeBlock(xPos, yPos);
+    	}
+    	
+    	
     	LayeredPane.add(finalBlock);
         LayeredPane.moveToFront(finalBlock);
         

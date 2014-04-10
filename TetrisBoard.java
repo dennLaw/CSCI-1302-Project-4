@@ -287,24 +287,23 @@ public class TetrisBoard{
 	public void clearLine(int lineToClear){
 		int[][] tempBoard = playingBoard;
 
+			
 		
-					for (int x = 0; x < 10; x++){			
-							boolean clearThis = guiBoard.checkPos(x, lineToClear);
-							
-							if (clearThis == true){
-								guiBoard.wipeBlock(x, lineToClear);
-						}
-					}
-						
-					for (int y = lineToClear; y > 0; y--){
-						for (int x = 0; x < 10; x++){
-								boolean clearThis = guiBoard.checkPos(x, y - 1);
+		for (int y = lineToClear; y > 0; y--){
+			for (int x = 0; x < 10; x++){
+				boolean blockThere = guiBoard.checkPos(x, y - 1);
 								
-								if (clearThis == true){
-			guiBoard.setBlockRow(guiBoard.getBlockRow(x, y - 1), x, y);
+					if (blockThere == true){
+						System.out.println("block there");
+						guiBoard.setBlockRow(guiBoard.getBlockRow(x, y - 1), x, y);
+					}
+					
+					else if(blockThere == false){
+						System.out.println("block not there");
+						guiBoard.wipeBlock(x, y);
+					}
 			}
-			}
-			}
+		}
 
 		
 		for(int y = lineToClear; y > 0; y--){
