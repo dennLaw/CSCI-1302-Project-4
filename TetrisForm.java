@@ -36,6 +36,10 @@ public class TetrisForm extends javax.swing.JFrame {
 	int currentY4 = 0;
 	int width = 0;
 	int height = 0;
+	boolean leftKeyPress = false;
+	boolean rightKeyPress = false;
+	boolean instaDrop = false;
+	boolean twist = false;
 	JLabel[][] placedLabels = new JLabel[10][24];
 	
 	
@@ -47,6 +51,7 @@ public class TetrisForm extends javax.swing.JFrame {
 	
         
 	public TetrisForm() {
+		addKeyListener(new MainListener());
         initComponents();
     }
 	
@@ -210,22 +215,60 @@ public class TetrisForm extends javax.swing.JFrame {
     	
     }
     
-    public void setScore(int score){
-    	String scoreWord = String.valueOf(score);
-    	scoreBoard.setText(scoreWord);
+    public boolean checkForBlock(int xCo, int yCo){
+    	
+    	boolean blockThere = false;
+    	String isThere = String.valueOf(placedLabels[xCo][yCo]);
+    	if (isThere != null){
+    		blockThere = true;
+    		System.out.println("block is here");
+    	}
+    	return blockThere;
+    	
     }
     
+    
+    public void setScore(int score){
+    	String scoreString = String.valueOf(score);
+    	scoreBoard.setText(scoreString);
+    }
+    
+    
+    
+    public boolean checkPos(int xCo, int yCo){
+    	boolean somethingThere = false;
+    	
+    	String placedBlocks = String.valueOf(placedLabels[xCo][yCo]);
+    	
+    	if(placedBlocks != "null"){
+    		somethingThere = true;
+    	}
+    	
+    	return somethingThere;
+    }
+    
+    
+
     
     public void wipeBlock(int xCo, int yCo){
     	
     	placedLabels[xCo][yCo].setVisible(false);
     	LayeredPane.remove(placedLabels[xCo][yCo]);
-    	
+    	placedLabels[xCo][yCo] = null;
     }
     
     
     public void setBlockRow(JLabel block, int xCol, int yRow){
     	placedLabels[xCol][yRow] = block;
+    	
+    	boolean blockThere = checkPos(xCol, yRow);
+    	
+    	if (blockThere == true){
+    		System.out.println("block is here");
+    	block.setBounds(xCol*31, yRow*31, 31, 31);
+    	}
+    	
+    	
     }
     
     public JLabel getBlockRow (int xPos, int yPos){
@@ -468,47 +511,11 @@ public class TetrisForm extends javax.swing.JFrame {
     	    
     }
     
-	 private class MyKeyListener extends KeyAdapter{
-	        public void keyPressed(KeyEvent e){
-	            switch (e.getKeyCode()){
-	                case KeyEvent.VK_LEFT:
-	                	moveLeft();
-	                break;
-	                
-	                case KeyEvent.VK_RIGHT:
-	                	moveRight();
-	                break;
-	                
-	                case KeyEvent.VK_DOWN:
-	                	drop();
-	                	break;
-	            }
-	        }
-	        public void keyReleased(KeyEvent e){
-	            switch (e.getKeyCode()){
-	                case KeyEvent.VK_LEFT:
-	                break;
-	                case KeyEvent.VK_RIGHT:
-	                break;
-	                case KeyEvent.VK_UP:
-	                break;
-	                case KeyEvent.VK_DOWN:
-	                break;
-	            }
-	        }
-	    }
-    
-    
     public void makeFrame(){
     setSize(980, 930);
     setVisible(true);
-<<<<<<< HEAD
     scoreBoard.setText("0");
-=======
-    MyKeyListener watchKeys = new MyKeyListener();
->>>>>>> parent of 85c0d1c... Added Key Functionality.
     
-    LayeredPane.addKeyListener(watchKeys);    
     LayeredPane.add(blockLabel);
     LayeredPane.add(block2Label);
     LayeredPane.add(block3Label);
@@ -531,7 +538,7 @@ public class TetrisForm extends javax.swing.JFrame {
     private void initComponents() {
 
         LayeredPane = new javax.swing.JLayeredPane();
-        scoreBoard = new javax.swing.JTextField();
+        scoreBoard = new javax.swing.JLabel();
         backgroundImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -551,15 +558,12 @@ public class TetrisForm extends javax.swing.JFrame {
         getContentPane().add(LayeredPane);
         LayeredPane.setBounds(281, 70, 310, 744);
 
-        scoreBoard.setEditable(false);
-        scoreBoard.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        scoreBoard.setForeground(new java.awt.Color(51, 204, 255));
-        scoreBoard.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        scoreBoard.setOpaque(false);
+        scoreBoard.setForeground(new java.awt.Color(102, 153, 255));
+        scoreBoard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(scoreBoard);
         scoreBoard.setBounds(40, 70, 210, 110);
 
-        backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_0Piece.png")); // NOI18N
+        backgroundImage.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\background_0Piece.png")); // NOI18N
         getContentPane().add(backgroundImage);
         backgroundImage.setBounds(0, 0, 850, 850);
 
@@ -573,22 +577,78 @@ public class TetrisForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane LayeredPane;
     private javax.swing.JLabel backgroundImage;
-    private javax.swing.JTextField scoreBoard;
+    private javax.swing.JLabel scoreBoard;
     // End of variables declaration//GEN-END:variables
     
     private class MainListener implements KeyListener{
-		
-		public void keyPressed(KeyEvent event){
-			
-			
+
+        public void keyPressed(KeyEvent e){
+
+        	if(e.getKeyCode() == KeyEvent.VK_LEFT){
+
+            	leftKeyPress = true;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_RIGHT)){
+            	rightKeyPress = true;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_UP)){
+            	instaDrop = true;
+            }
+        	if(e.getKeyCode() == (KeyEvent.VK_DOWN)){
+        		twist = true;
+        	}
+        }
+        
+		public void keyReleased(KeyEvent e){
+			if(e.getKeyCode() == (KeyEvent.VK_LEFT)){
+            	leftKeyPress = false;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_RIGHT)){
+            	rightKeyPress = false;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_UP)){
+            	instaDrop = false;
+            }
+        	if(e.getKeyCode() == (KeyEvent.VK_DOWN)){
+        		twist = false;
+        	}
 		}
-		public void keyReleased(KeyEvent event){
-			
-			
-		}
-		public void keyTyped(KeyEvent event){
-			
-			
-		}
+		public void keyTyped(KeyEvent e){}
 	}
+    
+    public boolean getRight(){
+    	if(rightKeyPress){
+    		rightKeyPress = false;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean getLeft(){
+    	if(leftKeyPress){
+    		leftKeyPress = false;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean getInstaDrop(){
+    	if(instaDrop){
+    		instaDrop = false;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean getTwist(){
+    	if(twist){
+    		twist = false;
+    		return true;
+    	}
+    	return false;
+    }
 }
