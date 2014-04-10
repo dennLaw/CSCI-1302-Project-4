@@ -341,6 +341,7 @@ public class TetrisBoard{
 	
 	public void addScore(int scoreAdd){
 		score += scoreAdd;
+		guiBoard.setScore(score);
 	}
 	
 	public int getScore(){

@@ -215,6 +215,11 @@ public class TetrisForm extends javax.swing.JFrame {
     	
     }
     
+    public void setScore(int score){
+    	String scoreWord = String.valueOf(score);
+    	scoreBoard.setText(scoreWord);
+    }
+    
     
     public void wipeBlock(int xCo, int yCo){
     	
@@ -485,6 +490,7 @@ public class TetrisForm extends javax.swing.JFrame {
     public void makeFrame(){
     setSize(980, 930);
     setVisible(true);
+    scoreBoard.setText("0");
     
     LayeredPane.add(blockLabel);
     LayeredPane.add(block2Label);
@@ -508,6 +514,7 @@ public class TetrisForm extends javax.swing.JFrame {
     private void initComponents() {
 
         LayeredPane = new javax.swing.JLayeredPane();
+        scoreBoard = new javax.swing.JTextField();
         backgroundImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -527,7 +534,15 @@ public class TetrisForm extends javax.swing.JFrame {
         getContentPane().add(LayeredPane);
         LayeredPane.setBounds(281, 70, 310, 744);
 
-        backgroundImage.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\background_0Piece.png")); // NOI18N
+        scoreBoard.setEditable(false);
+        scoreBoard.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        scoreBoard.setForeground(new java.awt.Color(51, 204, 255));
+        scoreBoard.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        scoreBoard.setOpaque(false);
+        getContentPane().add(scoreBoard);
+        scoreBoard.setBounds(40, 70, 210, 110);
+
+        backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_0Piece.png")); // NOI18N
         getContentPane().add(backgroundImage);
         backgroundImage.setBounds(0, 0, 850, 850);
 
@@ -541,6 +556,7 @@ public class TetrisForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane LayeredPane;
     private javax.swing.JLabel backgroundImage;
+    private javax.swing.JTextField scoreBoard;
     // End of variables declaration//GEN-END:variables
     
     private class MainListener implements KeyListener{
