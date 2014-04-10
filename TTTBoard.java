@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,6 +15,12 @@ public class TTTBoard extends javax.swing.JFrame {
     /**
      * Creates new form TTTBoard
      */
+	
+	String projPath = System.getProperty("user.dir");
+    boolean player1Turn;
+    boolean player2Turn;
+    
+	
     public TTTBoard() {
         initComponents();
     }
@@ -35,109 +43,367 @@ public class TTTBoard extends javax.swing.JFrame {
         Row3Col1 = new javax.swing.JButton();
         Row3Col2 = new javax.swing.JButton();
         Row3Col3 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        MainTextArea = new javax.swing.JTextArea();
+        p2ScorePane = new javax.swing.JTextField();
+        p1ScorePane = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
+        background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
-        MainTextArea.setColumns(20);
-        MainTextArea.setRows(5);
-        jScrollPane1.setViewportView(MainTextArea);
+        Row1Col1.setBackground(new java.awt.Color(65, 65, 65));
+        Row1Col1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row1Col1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row1Col1);
+        Row1Col1.setBounds(233, 94, 140, 140);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(104, 104, 104)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(265, 265, 265)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Row3Col2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Row2Col2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(Row1Col1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Row1Col2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Row1Col3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Row2Col3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Row3Col3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(Row3Col1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Row2Col1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(109, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Row1Col1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Row1Col2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Row1Col3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(87, 87, 87)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Row2Col1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Row2Col2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Row2Col3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(85, 85, 85)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Row3Col3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(Row3Col1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Row3Col2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
-        );
+        Row1Col2.setBackground(new java.awt.Color(65, 65, 65));
+        Row1Col2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row1Col2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row1Col2);
+        Row1Col2.setBounds(382, 94, 140, 140);
+
+        Row1Col3.setBackground(new java.awt.Color(65, 65, 65));
+        Row1Col3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row1Col3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row1Col3);
+        Row1Col3.setBounds(532, 94, 140, 140);
+
+        Row2Col1.setBackground(new java.awt.Color(65, 65, 65));
+        Row2Col1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row2Col1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row2Col1);
+        Row2Col1.setBounds(233, 244, 140, 140);
+
+        Row2Col2.setBackground(new java.awt.Color(65, 65, 65));
+        Row2Col2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row2Col2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row2Col2);
+        Row2Col2.setBounds(382, 244, 140, 140);
+
+        Row2Col3.setBackground(new java.awt.Color(65, 65, 65));
+        Row2Col3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row2Col3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row2Col3);
+        Row2Col3.setBounds(532, 244, 140, 140);
+
+        Row3Col1.setBackground(new java.awt.Color(65, 65, 65));
+        Row3Col1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row3Col1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row3Col1);
+        Row3Col1.setBounds(233, 394, 140, 140);
+
+        Row3Col2.setBackground(new java.awt.Color(65, 65, 65));
+        Row3Col2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row3Col2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row3Col2);
+        Row3Col2.setBounds(382, 394, 140, 140);
+
+        Row3Col3.setBackground(new java.awt.Color(65, 65, 65));
+        Row3Col3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Row3Col3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Row3Col3);
+        Row3Col3.setBounds(532, 394, 140, 140);
+
+        p2ScorePane.setEditable(false);
+        p2ScorePane.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        p2ScorePane.setForeground(new java.awt.Color(255, 0, 0));
+        p2ScorePane.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        p2ScorePane.setOpaque(false);
+        getContentPane().add(p2ScorePane);
+        p2ScorePane.setBounds(720, 60, 150, 60);
+
+        p1ScorePane.setEditable(false);
+        p1ScorePane.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        p1ScorePane.setForeground(new java.awt.Color(102, 102, 255));
+        p1ScorePane.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        p1ScorePane.setOpaque(false);
+        getContentPane().add(p1ScorePane);
+        p1ScorePane.setBounds(30, 60, 150, 60);
+
+        textArea.setEditable(false);
+        textArea.setBackground(new java.awt.Color(65, 65, 65));
+        textArea.setColumns(20);
+        textArea.setForeground(new java.awt.Color(204, 204, 204));
+        textArea.setRows(5);
+        jScrollPane2.setViewportView(textArea);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(120, 600, 670, 150);
+
+        background.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\NetBeansProjects\\CSCI_1302_Proj_4\\art\\tttBackground.png")); // NOI18N
+        getContentPane().add(background);
+        background.setBounds(0, 0, 900, 800);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TTTBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TTTBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TTTBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TTTBoard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TTTBoard().setVisible(true);
-            }
-        });
+    
+    public boolean checkClicked(boolean clickedButton){
+    	return clickedButton;
     }
+    
+    public boolean checkTurnP1(){
+    	return player1Turn;
+    }
+    
+    public boolean checkTurnP2(){
+    	return player2Turn;
+    }
+    
+    public void setTurnP2(){
+    		player1Turn = false;
+    		player2Turn = true;
+    }
+    	
+    public void setTurnP1(){
+    		player2Turn = false;
+    		player1Turn = true;
+    	}
+   
+    
+    
+    
+    private void Row1Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col1ActionPerformed
+
+    	String clicked = String.valueOf(Row1Col1.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row1Col1.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row1Col1.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    		
+    	}
+    	
+    	
+
+        
+    
+
+    private void Row1Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col2ActionPerformed
+        
+    	String clicked = String.valueOf(Row1Col2.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row1Col2.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row1Col2.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    	
+    }//GEN-LAST:event_Row1Col2ActionPerformed
+
+    private void Row1Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col3ActionPerformed
+
+    	String clicked = String.valueOf(Row1Col3.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row1Col3.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row1Col3.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    	
+    }//GEN-LAST:event_Row1Col3ActionPerformed
+
+    private void Row2Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col1ActionPerformed
+
+    	String clicked = String.valueOf(Row2Col1.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row2Col1.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row2Col1.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    }//GEN-LAST:event_Row2Col1ActionPerformed
+
+    private void Row2Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col2ActionPerformed
+    	
+    	String clicked = String.valueOf(Row2Col2.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row2Col2.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row2Col2.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    }//GEN-LAST:event_Row2Col2ActionPerformed
+
+    private void Row2Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col3ActionPerformed
+
+    	String clicked = String.valueOf(Row2Col3.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row2Col3.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row2Col3.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    }//GEN-LAST:event_Row2Col3ActionPerformed
+
+    private void Row3Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col1ActionPerformed
+
+    	String clicked = String.valueOf(Row3Col1.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row3Col1.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row3Col1.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    }//GEN-LAST:event_Row3Col1ActionPerformed
+
+    private void Row3Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col2ActionPerformed
+
+    	String clicked = String.valueOf(Row3Col2.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row3Col2.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row3Col2.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    }//GEN-LAST:event_Row3Col2ActionPerformed
+
+    private void Row3Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col3ActionPerformed
+
+    	String clicked = String.valueOf(Row3Col3.getIcon());
+    	
+    	if (clicked == "null"){
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			Row3Col3.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			Row3Col3.setIcon(X);
+    			setTurnP1();
+        	}
+    	}
+    	
+    }//GEN-LAST:event_Row3Col3ActionPerformed
+
+    
+    
+    public void makeFrame(){
+    
+        player1Turn = true;
+        player2Turn = false;
+    	
+    setSize(900, 800);
+    setVisible(true);
+    
+    }
+    
+    
+    public void setScoreP1(int Score){
+    	String score = String.valueOf(Score);
+    	p1ScorePane.setText(score);
+    }
+    
+    
+    public void setScoreP2(int Score){
+    	String score = String.valueOf(Score);
+    	p2ScorePane.setText(score);
+    }
+    
+    
+    public void talk(String text){
+    	textArea.setText(text);
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea MainTextArea;
     private javax.swing.JButton Row1Col1;
     private javax.swing.JButton Row1Col2;
     private javax.swing.JButton Row1Col3;
@@ -147,6 +413,10 @@ public class TTTBoard extends javax.swing.JFrame {
     private javax.swing.JButton Row3Col1;
     private javax.swing.JButton Row3Col2;
     private javax.swing.JButton Row3Col3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel background;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField p1ScorePane;
+    private javax.swing.JTextField p2ScorePane;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
