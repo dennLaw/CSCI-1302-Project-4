@@ -36,6 +36,10 @@ public class TetrisForm extends javax.swing.JFrame {
 	int currentY4 = 0;
 	int width = 0;
 	int height = 0;
+	boolean leftKeyPress = false;
+	boolean rightKeyPress = false;
+	boolean instaDrop = false;
+	boolean twist = false;
 	JLabel[][] placedLabels = new JLabel[10][24];
 	
 	
@@ -47,6 +51,7 @@ public class TetrisForm extends javax.swing.JFrame {
 	
         
 	public TetrisForm() {
+		addKeyListener(new MainListener());
         initComponents();
     }
 	
@@ -463,43 +468,10 @@ public class TetrisForm extends javax.swing.JFrame {
     	    
     }
     
-	 private class MyKeyListener extends KeyAdapter{
-	        public void keyPressed(KeyEvent e){
-	            switch (e.getKeyCode()){
-	                case KeyEvent.VK_LEFT:
-	                	moveLeft();
-	                break;
-	                
-	                case KeyEvent.VK_RIGHT:
-	                	moveRight();
-	                break;
-	                
-	                case KeyEvent.VK_DOWN:
-	                	drop();
-	                	break;
-	            }
-	        }
-	        public void keyReleased(KeyEvent e){
-	            switch (e.getKeyCode()){
-	                case KeyEvent.VK_LEFT:
-	                break;
-	                case KeyEvent.VK_RIGHT:
-	                break;
-	                case KeyEvent.VK_UP:
-	                break;
-	                case KeyEvent.VK_DOWN:
-	                break;
-	            }
-	        }
-	    }
-    
-    
     public void makeFrame(){
     setSize(980, 930);
     setVisible(true);
-    MyKeyListener watchKeys = new MyKeyListener();
     
-    LayeredPane.addKeyListener(watchKeys);    
     LayeredPane.add(blockLabel);
     LayeredPane.add(block2Label);
     LayeredPane.add(block3Label);
@@ -558,18 +530,74 @@ public class TetrisForm extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     private class MainListener implements KeyListener{
-		
-		public void keyPressed(KeyEvent event){
-			
-			
+
+        public void keyPressed(KeyEvent e){
+
+        	if(e.getKeyCode() == KeyEvent.VK_LEFT){
+
+            	leftKeyPress = true;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_RIGHT)){
+            	rightKeyPress = true;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_UP)){
+            	instaDrop = true;
+            }
+        	if(e.getKeyCode() == (KeyEvent.VK_DOWN)){
+        		twist = true;
+        	}
+        }
+        
+		public void keyReleased(KeyEvent e){
+			if(e.getKeyCode() == (KeyEvent.VK_LEFT)){
+            	leftKeyPress = false;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_RIGHT)){
+            	rightKeyPress = false;
+            }
+            
+        	if(e.getKeyCode() == (KeyEvent.VK_UP)){
+            	instaDrop = false;
+            }
+        	if(e.getKeyCode() == (KeyEvent.VK_DOWN)){
+        		twist = false;
+        	}
 		}
-		public void keyReleased(KeyEvent event){
-			
-			
-		}
-		public void keyTyped(KeyEvent event){
-			
-			
-		}
+		public void keyTyped(KeyEvent e){}
 	}
+    
+    public boolean getRight(){
+    	if(rightKeyPress){
+    		rightKeyPress = false;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean getLeft(){
+    	if(leftKeyPress){
+    		leftKeyPress = false;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean getInstaDrop(){
+    	if(instaDrop){
+    		instaDrop = false;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean getTwist(){
+    	if(twist){
+    		twist = false;
+    		return true;
+    	}
+    	return false;
+    }
 }

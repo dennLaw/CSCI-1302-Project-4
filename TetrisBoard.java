@@ -1,4 +1,4 @@
-public class TetrisBoard {
+public class TetrisBoard{
 	
 	//Make a Queue for Tetriminos here. Call the queue tetQ.
 	private TetriminoQueue tetQ;
@@ -65,14 +65,11 @@ public class TetrisBoard {
 			//CollisionOnce is set by checkCollision. If it detects that a static block is underneath a playable block, it flags "CollisionOnce" and prevents the piece from incrementing downwards.
 			if(!collisionOnce && blockInPlay){
 				moveDown();
-				
-				Thread.sleep(400);
-
-
+			
 				System.out.println("MoveDown");
 
 			}
-			twist();
+			
 			testPrint();
 		}
 	}
@@ -149,12 +146,10 @@ public class TetrisBoard {
 	}
 	
 	public void moveDown(){
-		int blockNum = 0;
 		for(int y = 22; y > -1; y--){
 			for(int x = 0; x < 10; x++){
 				//Checks for blocks in play and then moves them down one.
 				if(playingBoard[x][y]/10 == 1){
-					blockNum++;
 					playingBoard[x][y+1] = 10 + tet.getType();
 					playingBoard[x][y] = 0;
 					
@@ -268,9 +263,8 @@ public class TetrisBoard {
 		
 		while(!isDone){
 			isDone = true;
-			countBlock = 0;
 		
-			for(int y = 0; y < 22; y++){
+			for(int y = 0; y < 24; y++){
 				countBlock = 0;
 				
 				for(int x = 0; x < 10; x++){
@@ -337,317 +331,299 @@ public class TetrisBoard {
 	
 	//Twist
 	public void twist(){
-		int xy1 = -1;
-		int xy2 = -1;
-		int xy3 = -1;
-		int xy4 = -1;
-		boolean twisted = false;
-	
-		int counter = 0;
+		if(guiBoard.getTwist()){
+			int xy1 = -1;
+			int xy2 = -1;
+			int xy3 = -1;
+			int xy4 = -1;
 		
-		for(int y = 0; y < 24; y++){
-			for(int x = 0; x < 10; x++){
-				if(playingBoard[x][y]/10 == 1){
-					if(counter == 0){
-						xy1 = x*10+y;
-					}
-					else if(counter == 1){
-						xy2 = x*10+y;
-					}
-					else if(counter == 2){
-						xy3 = x*10+y;
-					}
-					else{
-						xy4 = x*10+y;
-					}
-					
-					counter++;
-				}
-			}
-		}
-		
-		if(xy1 != -1){
-			if(tet.getType() == 1){
-				int distanceFromSide = 3;
-				int distanceFromSide2 = 3;
-				
-				if(tet.getOrientation() == 1 || tet.getOrientation() == 3){
-					if(xy1/10 < 3){
-						distanceFromSide = xy1/10;
-					}
-					else if(xy1/10 > 6){
-						distanceFromSide2 = 9 - (int)(xy1/10);
-					}
-					
-					for(int y = xy1%10; y > xy1%10+4; y++){
-						
-						for(int x = xy1/10 - distanceFromSide; x <= xy1/10; x++){
-							if(distanceFromSide2 == 3){
-								if(!twisted && playingBoard[x][y]/10 == 1 || playingBoard[x][y]/10 == 1 && playingBoard[x+1][y]/10 == 1 || playingBoard[x+1][y]/10 == 1  && playingBoard[x+2][y]/10 == 1 || playingBoard[x+2][y]/10 == 1  && playingBoard[x+3][y]/10 == 1 || playingBoard[x+3][y]/10 == 1){
-									setZero();
-									setValue(10*(x+3)+y, 10*(x+2)+y, 10*(x+1)+y, 10*x+y);
-									
-									twisted = true;
-									tet.changeOrientation();
-								}
-							}
+			int counter = 0;
+			
+			for(int y = 0; y < 24; y++){
+				for(int x = 0; x < 10; x++){
+					if(playingBoard[x][y]/10 == 1){
+						if(counter == 0){
+							xy1 = x*100+y;
+						}
+						else if(counter == 1){
+							xy2 = x*100+y;
+						}
+						else if(counter == 2){
+							xy3 = x*100+y;
+						}
+						else{
+							xy4 = x*100+y;
 						}
 						
-						for(int x = xy1/10; x <= xy1/10 + distanceFromSide2; x++){
-							if(distanceFromSide == 3){
-								if(!twisted && playingBoard[x-3][y]%10 == 0 || playingBoard[x-3][y]/10 == 1 && playingBoard[x-2][y]%10 == 0  || playingBoard[x-2][y]/10 == 1 && playingBoard[x-1][y]%10 == 0  || playingBoard[x-1][y]/10 == 1 && playingBoard[x][y]%10 == 0 || playingBoard[x][y]/10 == 1){
-									setZero();
-									setValue(10*(x-3)+y, 10*(x-2)+y, 10*(x-1)+y, 10*x+y);
-									
-									twisted = true;
-									tet.changeOrientation();
-								}
-							}
-						}
-					}
-				}
-				else if(tet.getOrientation() == 2 || tet.getOrientation() == 4){
-					if(xy1%10 < 3){
-						distanceFromSide = xy1%10;
-					}
-					if(xy1%10 > 20){
-						distanceFromSide2 = 23 - xy1%10;
-					}
-					
-					for(int x = xy1/10; x < xy1/10 + 4; x++){
-						
-						for(int y = xy1%10; y <= xy1%10 + distanceFromSide2; y++){
-							if(distanceFromSide == 3){
-								if(!twisted && playingBoard[x][y-3]%10 == 0 || playingBoard[x][y-3]/10 == 1 && playingBoard[x][y-2]%10 == 0  || playingBoard[x][y-2]/10 == 1 && playingBoard[x][y-1]%10 == 0  || playingBoard[x][y-1]/10 == 1 && playingBoard[x][y]%10 == 0 || playingBoard[x][y]/10 == 1){
-									setZero();
-									setValue(10*(x-3)+y, 10*(x-2)+y, 10*(x-1)+y, 10*x+y);
-									
-									twisted = true;
-									tet.changeOrientation();
-								}
-							}
-						}
+						counter++;
 					}
 				}
 			}
-			else if(tet.getType() == 2){
-				if(tet.getOrientation() == 1){
-					if(xy4/10 != 9){
-						if(playingBoard[xy2/10-1][xy2%10] == 0 && playingBoard[xy4/10+1][xy4%10] == 0){
-							//playingBoard[xy2/10-1][xy2%10] = 10 + tet.getType();
-							//playingBoard[xy4/10+1][xy4%10] = 10 + tet.getType();
-							
-							setZero();
-							setValue(xy3-1, xy3, xy3+10, xy3+20);
-							
-							tet.changeOrientation();
-						}
-					}
-				}
-				else if(tet.getOrientation() == 2){
-					if(playingBoard[xy1/10][xy1%10-1] == 0 && playingBoard[xy1/10+1][xy1%10-1] == 0){
-						//playingBoard[xy1/10][xy1%10-1] = 10 + tet.getType();
-						//playingBoard[xy1/10+1][xy1%10-1] = 10 + tet.getType();
-						
-						setZero();
-						setValue(xy1+10-1,xy1-1,xy1,xy1+1);
-						
-						tet.changeOrientation();
-					}
-				}
-				else if(tet.getOrientation() == 3){
-					if(xy1/10 != 0){
-						if(playingBoard[xy1/10-1][xy1%10] == 0 && playingBoard[xy3/10+1][xy3%10] == 0){
-							//playingBoard[xy1/10-1][xy1%10] = 10 + tet.getType();
-							//playingBoard[xy3/10+1][xy3%10] = 10 + tet.getType();
-							
-							setZero();
-							setValue(xy1-10,xy1,xy1+10,xy1+11);
-							
-							tet.changeOrientation();
-						}
-					}
-				}
-				else if(tet.getOrientation() == 4){
-					if(xy3%10 != 0){
-						if(playingBoard[xy2/10][xy2%10+1] == 0 && playingBoard[xy3/10][xy3%10-1] == 0){
-							//playingBoard[xy2/10][xy2%10+1] = 10 + tet.getType();
-							//playingBoard[xy3/10][xy3%10-1] = 10 + tet.getType();
-							
-							setZero();
-							setValue(xy4-10,xy4,xy4-1,xy4-2);
-							
-							tet.changeOrientation();
-						}
-					}
-				}
-			}
-			else if(tet.getType() == 3){
-				if(tet.getOrientation() == 1){
-					if(xy2/10 != 0){
-						if(playingBoard[xy2/10-1][xy2%10] == 0 && playingBoard[xy3/10-1][xy3%10] == 0 && playingBoard[xy2/10+1][xy2%10] == 0){
-							//playingBoard[xy2/10-1][xy2%10] = 10 + tet.getType();
-							//playingBoard[xy3/10-1][xy3%10] = 10 + tet.getType();
-							//playingBoard[xy2/10+1][xy2%10] = 10 + tet.getType();
-	
-							setZero();
-							setValue(xy2-9, xy2-10, xy2, xy2+10);
-							
-							tet.changeOrientation();
-						}
-					}
-				}
-				else if(tet.getOrientation() == 2){
-					if(playingBoard[xy1/10][xy1%10-1] == 0 && playingBoard[xy2/10][xy2%10-1] == 0 && playingBoard[xy2/10][xy2%10+1] == 0){
-						//playingBoard[xy1/10][xy1%10-1] = 10 + tet.getType();
-						//playingBoard[xy2/10][xy2%10-1] = 10 + tet.getType();
-						//playingBoard[xy2/10][xy2%10+1] = 10 + tet.getType();
-						
-						setZero();
-						setValue(xy2-11, xy2-1, xy2, xy2+1);
-						
-						tet.changeOrientation();
-					}
-				}
-				else if(tet.getOrientation() == 3){
-					if(xy1/10 != 0){
-						if(playingBoard[xy3/10-1][xy3%10] == 0 && playingBoard[xy3/10-2][xy3%10] == 0){
-							//playingBoard[xy3/10-1][xy3%10] = 10 + tet.getType();
-							//playingBoard[xy3/10-2][xy3%10] = 10 + tet.getType();
-									
-							setZero();
-							setValue(xy3-20,xy3-10,xy3,xy3-1);
-							
-							tet.changeOrientation();
-						}
-					}
-				}
-				else if(tet.getOrientation() == 4){
-					if(playingBoard[xy3/10][xy3%10-1] == 0 && playingBoard[xy3/10][xy3%10-2] == 0){
-						//playingBoard[xy3/10][xy3%10-1] = 10 + tet.getType();
-						//playingBoard[xy3/10][xy3%10-2] = 10 + tet.getType();
+			//USE A [][] X [][]Y SYSTEM. DOUBLE DIGITS!
+			if(xy1 != -1 && xy1%100 > 0){
+				if(tet.getType() == 1){
+					int distanceFromSide1 = xy1/100;
+					int distanceFromSide2 = xy1%100;
+					
+					if(tet.getOrientation() == 1 || tet.getOrientation() == 3){
+						if(distanceFromSide1 > 2){
+							if(playingBoard[xy1/100-1][xy1%100] == 0 && playingBoard[xy1/100-2][xy1%100] == 0 && playingBoard[xy1/100-3][xy1%100] == 0){
 								
-						setZero();
-						setValue(xy3-2,xy3-1,xy3,xy3+10);
-						
-						tet.changeOrientation();
+								setZero();
+								setValue(xy1, xy1-100, xy1-200, xy1-300);
+								
+								tet.changeOrientation();
+							}
+						}
+						else{
+							if(playingBoard[xy1/100+1][xy1%100] == 0 && playingBoard[xy1/100+2][xy1%100] == 0 && playingBoard[xy1/100+3][xy1%100] == 0){
+								
+								setZero();
+								setValue(xy1+100, xy1+200, xy1+300, xy1);
+							
+								tet.changeOrientation();
+							}
+						}
+					}
+					else if(tet.getOrientation() == 2 || tet.getOrientation() == 4){
+						if(distanceFromSide2 > 2){
+							if(playingBoard[xy1/100][xy1%100-1] == 0 && playingBoard[xy1/100][xy1%100-2] == 0 && playingBoard[xy1/100][xy1%100-3] == 0){
+								
+								setZero();
+								setValue(xy1, xy1-1, xy1-2, xy1-3);
+								
+								tet.changeOrientation();
+							}
+						}
+						else{
+							if(playingBoard[xy1/100][xy1%100+1] == 0 && playingBoard[xy1/100][xy1%100+2] == 0 && playingBoard[xy1/100][xy1%100+3] == 0){
+								
+								setZero();
+								setValue(xy1+1, xy1+2, xy1+3, xy1);
+							
+								tet.changeOrientation();
+							}
+						}
 					}
 				}
-			}
-			else if(tet.getType() == 4){
-				//This block is a square.
-			}
-			else if(tet.getType() == 5){
-				if(tet.getOrientation() == 1 || tet.getOrientation() == 3){
-					if(playingBoard[xy1/10][xy1%10-1] == 0 && playingBoard[xy2/10][xy2%10+1] == 0){
-						//playingBoard[xy1/10][xy1%10-1] = 10 + tet.getType();
-						//playingBoard[xy2/10][xy2%10+1] = 10 + tet.getType();
-						
-						setZero();
-						setValue(xy1-1,xy1,xy1+10,xy1+11);
-						
-						tet.changeOrientation();
+				else if(tet.getType() == 2){
+					if(tet.getOrientation() == 1){
+						if(xy4/100 != 9){
+							if(playingBoard[xy2/100-1][xy2%100] == 0 && playingBoard[xy4/100+1][xy4%100] == 0){
+								//playingBoard[xy2/100-1][xy2%100] = 10 + tet.getType();
+								//playingBoard[xy4/100+1][xy4%100] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy3-1, xy3, xy3+100, xy3+200);
+								
+								tet.changeOrientation();
+							}
+						}
 					}
-				}
-				else if(tet.getOrientation() == 2 || tet.getOrientation() == 4){
-					if(xy2/10 != 0 && xy3%10 != 0){
-						if(playingBoard[xy3/10][xy3%10-1] == 0 && playingBoard[xy2/10-1][xy2%10] == 0){
-							//playingBoard[xy3/10][xy3%10-1] = 10 + tet.getType();
-							//playingBoard[xy2/10-1][xy2%10] = 10 + tet.getType();
+					else if(tet.getOrientation() == 2){
+						if(playingBoard[xy1/100][xy1%100-1] == 0 && playingBoard[xy1/100+1][xy1%100-1] == 0){
+							//playingBoard[xy1/100][xy1%100-1] = 10 + tet.getType();
+							//playingBoard[xy1/100+1][xy1%100-1] = 10 + tet.getType();
 							
 							setZero();
-							setValue(xy1+10,xy1,xy1+1,xy1-9);
+							setValue(xy1+100-1,xy1-1,xy1,xy1+1);
+							
+							tet.changeOrientation();
+						}
+					}
+					else if(tet.getOrientation() == 3){
+						if(xy1/100 != 0){
+							if(playingBoard[xy1/100-1][xy1%100] == 0 && playingBoard[xy3/100+1][xy3%100] == 0){
+								//playingBoard[xy1/100-1][xy1%100] = 10 + tet.getType();
+								//playingBoard[xy3/100+1][xy3%100] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy1-100,xy1,xy1+100,xy1+101);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+					else if(tet.getOrientation() == 4){
+						if(xy3%100 != 0){
+							if(playingBoard[xy2/100][xy2%100+1] == 0 && playingBoard[xy3/100][xy3%100-1] == 0){
+								//playingBoard[xy2/100][xy2%100+1] = 10 + tet.getType();
+								//playingBoard[xy3/100][xy3%100-1] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy4-100,xy4,xy4-1,xy4-2);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+				}
+				else if(tet.getType() == 3){
+					if(tet.getOrientation() == 1){
+						if(xy2/100 != 0){
+							if(playingBoard[xy2/100-1][xy2%100] == 0 && playingBoard[xy3/100-1][xy3%100] == 0 && playingBoard[xy2/100+1][xy2%100] == 0){
+								//playingBoard[xy2/100-1][xy2%100] = 10 + tet.getType();
+								//playingBoard[xy3/100-1][xy3%100] = 10 + tet.getType();
+								//playingBoard[xy2/100+1][xy2%100] = 10 + tet.getType();
+		
+								setZero();
+								setValue(xy2-99, xy2-100, xy2, xy2+100);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+					else if(tet.getOrientation() == 2){
+						if(playingBoard[xy1/100][xy1%100-1] == 0 && playingBoard[xy2/100][xy2%100-1] == 0 && playingBoard[xy2/100][xy2%100+1] == 0){
+							//playingBoard[xy1/100][xy1%100-1] = 10 + tet.getType();
+							//playingBoard[xy2/100][xy2%100-1] = 10 + tet.getType();
+							//playingBoard[xy2/100][xy2%100+1] = 10 + tet.getType();
+							
+							setZero();
+							setValue(xy2-101, xy2-1, xy2, xy2+1);
+							
+							tet.changeOrientation();
+						}
+					}
+					else if(tet.getOrientation() == 3){
+						if(xy1/100 != 0){
+							if(playingBoard[xy3/100-1][xy3%100] == 0 && playingBoard[xy3/100-2][xy3%100] == 0){
+								//playingBoard[xy3/100-1][xy3%100] = 10 + tet.getType();
+								//playingBoard[xy3/100-2][xy3%100] = 10 + tet.getType();
+										
+								setZero();
+								setValue(xy3-200,xy3-100,xy3,xy3-1);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+					else if(tet.getOrientation() == 4){
+						if(playingBoard[xy3/100][xy3%100-1] == 0 && playingBoard[xy3/100][xy3%100-2] == 0){
+							//playingBoard[xy3/100][xy3%100-1] = 10 + tet.getType();
+							//playingBoard[xy3/100][xy3%100-2] = 10 + tet.getType();
+									
+							setZero();
+							setValue(xy3-2,xy3-1,xy3,xy3+100);
 							
 							tet.changeOrientation();
 						}
 					}
 				}
-			}
-			else if(tet.getType() == 6){
-				if(tet.getOrientation() == 1){
-					if(xy2%10 != 0){
-						if(playingBoard[xy2/10][xy2%10-1] == 0){
-							//playingBoard[xy2/10][xy2%10 - 1] = 10 + tet.getType();
-	
+				else if(tet.getType() == 4){
+					//This block is a square.
+				}
+				else if(tet.getType() == 5){
+					if(tet.getOrientation() == 1 || tet.getOrientation() == 3){
+						if(playingBoard[xy1/100][xy1%100-1] == 0 && playingBoard[xy2/100][xy2%100+1] == 0){
+							//playingBoard[xy1/100][xy1%100-1] = 10 + tet.getType();
+							//playingBoard[xy2/100][xy2%100+1] = 10 + tet.getType();
+							
 							setZero();
-							setValue(xy1,xy1+10,xy1+11,xy1+9);
+							setValue(xy1-1,xy1,xy1+100,xy1+101);
 							
 							tet.changeOrientation();
 						}
 					}
+					else if(tet.getOrientation() == 2 || tet.getOrientation() == 4){
+						if(xy2/100 != 0 && xy3%100 != 0){
+							if(playingBoard[xy3/100][xy3%100-1] == 0 && playingBoard[xy2/100-1][xy2%100] == 0){
+								//playingBoard[xy3/100][xy3%100-1] = 10 + tet.getType();
+								//playingBoard[xy2/100-1][xy2%100] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy1+100,xy1,xy1+1,xy1-99);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
 				}
-				else if(tet.getOrientation() == 2){
-					if(xy3/10 != 9){
-						if(playingBoard[xy3/10+1][xy3%10] == 0){
-							//playingBoard[xy3/10+1][xy3%10] = 10 + tet.getType();
+				else if(tet.getType() == 6){
+					if(tet.getOrientation() == 1){
+						if(xy2%100 != 0){
+							if(playingBoard[xy2/100][xy2%100-1] == 0){
+								//playingBoard[xy2/100][xy2%100 - 1] = 10 + tet.getType();
+		
+								setZero();
+								setValue(xy1,xy1+100,xy1+101,xy1+99);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+					else if(tet.getOrientation() == 2){
+						if(xy3/100 != 9){
+							if(playingBoard[xy3/100+1][xy3%100] == 0){
+								//playingBoard[xy3/100+1][xy3%100] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy1,xy1+1,xy1-99,xy1+101);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+					else if(tet.getOrientation() == 3){
+						if(xy3%100+1 != 24){
+							if(playingBoard[xy3/100][xy3%100+1] == 0){
+								//playingBoard[xy3/100][xy3%100 + 1] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy1,xy1+1,xy1+101,xy1+2);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+					else if(tet.getOrientation() == 4){
+						if(xy2/100 != 0){
+							if(playingBoard[xy2/100-1][xy2%100] == 0){
+								//playingBoard[xy2/100-1][xy2%100] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy2+100,xy2,xy2-100,xy2+1);
+								
+								tet.changeOrientation();
+							}
+						}
+					}
+				}
+				else if(tet.getType() == 7){
+					if(tet.getOrientation() == 1 || tet.getOrientation() == 3){
+						if(playingBoard[xy1/100][xy1%100+1] == 0 && playingBoard[xy2/100][xy2%100-1] == 0){
+							//playingBoard[xy1/100][xy1%100+1] = 10 + tet.getType();
+							//playingBoard[xy2/100][xy2%100-1] = 10 + tet.getType();
 							
 							setZero();
-							setValue(xy1,xy1+1,xy1-9,xy1+11);
+							setValue(xy1+1,xy1,xy1+100,xy1+99);
 							
 							tet.changeOrientation();
 						}
 					}
-				}
-				else if(tet.getOrientation() == 3){
-					if(xy3%10+1 != 24){
-						if(playingBoard[xy3/10][xy3%10+1] == 0){
-							//playingBoard[xy3/10][xy3%10 + 1] = 10 + tet.getType();
-							
-							setZero();
-							setValue(xy1,xy1+1,xy1+11,xy1+2);
-							
-							tet.changeOrientation();
-						}
-					}
-				}
-				else if(tet.getOrientation() == 4){
-					if(xy2/10 != 0){
-						if(playingBoard[xy2/10-1][xy2%10] == 0){
-							//playingBoard[xy2/10-1][xy2%10] = 10 + tet.getType();
-							
-							setZero();
-							setValue(xy2+10,xy2,xy2-10,xy2+1);
-							
-							tet.changeOrientation();
-						}
-					}
-				}
-			}
-			else if(tet.getType() == 7){
-				if(tet.getOrientation() == 1 || tet.getOrientation() == 3){
-					if(playingBoard[xy1/10][xy1%10+1] == 0 && playingBoard[xy2/10][xy2%10-1] == 0){
-						//playingBoard[xy1/10][xy1%10+1] = 10 + tet.getType();
-						//playingBoard[xy2/10][xy2%10-1] = 10 + tet.getType();
-						
-						setZero();
-						setValue(xy1+1,xy1,xy1+10,xy1+9);
-						
-						tet.changeOrientation();
-					}
-				}
-				else if(tet.getOrientation() == 2 || tet.getOrientation() == 4){
-					if(xy2/10 != 9){
-						if(playingBoard[xy3/10][xy3%10-1] == 0 && playingBoard[xy2/10+1][xy2%10] == 0){
-							//playingBoard[xy3/10][xy3%10-1] = 10 + tet.getType();
-							//playingBoard[xy2/10+1][xy2%10] = 10 + tet.getType();
-							
-							setZero();
-							setValue(xy1-10,xy1,xy1+1,xy1+11);
-							
-							tet.changeOrientation();
+					else if(tet.getOrientation() == 2 || tet.getOrientation() == 4){
+						if(xy2/100 != 9){
+							if(playingBoard[xy3/100][xy3%100-1] == 0 && playingBoard[xy2/100+1][xy2%100] == 0){
+								//playingBoard[xy3/100][xy3%100-1] = 10 + tet.getType();
+								//playingBoard[xy2/100+1][xy2%100] = 10 + tet.getType();
+								
+								setZero();
+								setValue(xy1-100,xy1,xy1+1,xy1+101);
+								
+								tet.changeOrientation();
+							}
 						}
 					}
 				}
 			}
 		}
-		
 		
 		draw();
 	}
 	
 	//Sets all playing coordinates to zero on the grid.
 	public void setZero(){
-		for(int y = 22; y > -1; y--){
+		for(int y = 23; y > -1; y--){
 			for(int x = 0; x < 10; x++){
 				if(playingBoard[x][y]/10 == 1){
 					playingBoard[x][y] = 0;
@@ -658,37 +634,39 @@ public class TetrisBoard {
 	
 	//Sets 4 coordinates to playing with the current piece on the grid.
 	public void setValue(int xy1, int xy2, int xy3, int xy4){
-		playingBoard[xy1/10][xy1%10] = 10 + tet.getType();
-		playingBoard[xy2/10][xy2%10] = 10 + tet.getType();
-		playingBoard[xy3/10][xy3%10] = 10 + tet.getType();
-		playingBoard[xy4/10][xy4%10] = 10 + tet.getType();
+		playingBoard[xy1/100][xy1%100] = 10 + tet.getType();
+		playingBoard[xy2/100][xy2%100] = 10 + tet.getType();
+		playingBoard[xy3/100][xy3%100] = 10 + tet.getType();
+		playingBoard[xy4/100][xy4%100] = 10 + tet.getType();
 		
 		System.out.println(xy1 + " " + xy2 + " " + xy3 + " " + xy4);
 	}
 	
 	//Move Right
 	public void moveRight(){
-		boolean canMove = true;
-		
-		for(int y = 22; y > -1; y--){
+		if(guiBoard.getRight()){
+			boolean canMove = true;
 			
-			if(canMove && playingBoard[9][y]/10 == 1){
-				canMove = false;
-			}
-			
-			for(int x = 1; x < 10; x++){
-				if(canMove && playingBoard[x-1][y]%10 != 0 && playingBoard[x-1][y]/10 == 0 && playingBoard[x][y]/10 == 1){
+			for(int y = 23; y > -1; y--){
+				
+				if(canMove && playingBoard[9][y]/10 == 1){
 					canMove = false;
 				}
+				
+				for(int x = 1; x < 10; x++){
+					if(canMove && playingBoard[x-1][y]%10 != 0 && playingBoard[x-1][y]/10 == 0 && playingBoard[x][y]/10 == 1){
+						canMove = false;
+					}
+				}
 			}
-		}
-		
-		if(canMove){
-			for(int y = 22; y > -1; y--){
-				for(int x = 9; x > -1; x--){
-					if(playingBoard[x][y]/10 == 1){
-						playingBoard[x+1][y] = 10 + tet.getType();
-						playingBoard[x][y] = 0;
+			
+			if(canMove){
+				for(int y = 23; y > -1; y--){
+					for(int x = 9; x > -1; x--){
+						if(playingBoard[x][y]/10 == 1){
+							playingBoard[x+1][y] = 10 + tet.getType();
+							playingBoard[x][y] = 0;
+						}
 					}
 				}
 			}
@@ -699,33 +677,35 @@ public class TetrisBoard {
 	
 	//Move Left
 	public void moveLeft(){
-		boolean canMove = true;
-		
-		for(int y = 22; y > -1; y--){
+		if(guiBoard.getLeft()){
+			boolean canMove = true;
 			
-			if(canMove && playingBoard[0][y]/10 == 1){
-				canMove = false;
-			}
-			
-			for(int x = 0; x < 9; x++){
-				if(canMove && playingBoard[x][y]%10 != 0 && playingBoard[x][y]/10 == 0 && playingBoard[x+1][y]/10 == 1){
+			for(int y = 23; y > -1; y--){
+				
+				if(canMove && playingBoard[0][y]/10 == 1){
 					canMove = false;
 				}
-			}
-		}
-		
-		if(canMove){
-			for(int y = 22; y > -1; y--){
-				for(int x = 1; x < 10; x++){
-					if(playingBoard[x][y]/10 == 1){
-						playingBoard[x-1][y] = 10 + tet.getType();
-						playingBoard[x][y] = 0;
+				
+				for(int x = 0; x < 9; x++){
+					if(canMove && playingBoard[x][y]%10 != 0 && playingBoard[x][y]/10 == 0 && playingBoard[x+1][y]/10 == 1){
+						canMove = false;
 					}
 				}
 			}
+			
+			if(canMove){
+				for(int y = 23; y > -1; y--){
+					for(int x = 1; x < 10; x++){
+						if(playingBoard[x][y]/10 == 1){
+							playingBoard[x-1][y] = 10 + tet.getType();
+							playingBoard[x][y] = 0;
+						}
+					}
+				}
+			}
+			
+			draw();
 		}
-		
-		draw();
 	}
 	
 	//Instant Drop
@@ -783,15 +763,17 @@ public class TetrisBoard {
 		*/
 		
 		//Calling moveDown until collides. Less efficient time and space-wise, but the code above it bugged.
-		checkCollision();
-		
-		while(!collisionOnce && blockInPlay){
-			moveDown();
-			
+		if(guiBoard.getInstaDrop()){
 			checkCollision();
+			
+			while(!collisionOnce && blockInPlay){
+				moveDown();
+				
+				checkCollision();
+			}
 		}
 		
-		//draw();
+		draw();
 	}
 	
 	public void draw(){
