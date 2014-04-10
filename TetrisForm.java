@@ -224,8 +224,22 @@ public class TetrisForm extends javax.swing.JFrame {
     }
     
     
+    public boolean checkPos(int xCo, int yCo){
+    	boolean somethingThere = false;
+    	
+    	String placedBlocks = String.valueOf(placedLabels[xCo][yCo]);
+    	
+    	if(placedBlocks != "null"){
+    		somethingThere = true;
+    	}
+    	
+    	return somethingThere;
+    }
+    
+    
     public void setBlockRow(JLabel block, int xCol, int yRow){
     	placedLabels[xCol][yRow] = block;
+    	placedLabels[xCol][yRow].setBounds(xCol *31, yRow *31, 31, 31);
     }
     
     public JLabel getBlockRow (int xPos, int yPos){
