@@ -95,8 +95,8 @@ public class TicTacToeAI extends TicTacToePlayer{
 		}
 		
 		else{
-			xCoord = math.nextInt(2);
-			yCoord = math.nextInt(2);
+			xCoord = (int)(Math.random()*3);
+			yCoord = (int)(Math.random()*3);
 		}
 	}
 	
