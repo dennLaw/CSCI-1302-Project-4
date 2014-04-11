@@ -1,4 +1,5 @@
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,6 +20,12 @@ public class TTTBoard extends javax.swing.JFrame {
 	String projPath = System.getProperty("user.dir");
     boolean player1Turn;
     boolean player2Turn;
+    boolean player1Win;
+    boolean player2Win;
+    int buttonsClicked;
+    int scoreP1;
+    int scoreP2;
+    TicTacToe ttt;
     
 	
     public TTTBoard() {
@@ -34,6 +41,7 @@ public class TTTBoard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        playAgain = new javax.swing.JButton();
         Row1Col1 = new javax.swing.JButton();
         Row1Col2 = new javax.swing.JButton();
         Row1Col3 = new javax.swing.JButton();
@@ -51,6 +59,15 @@ public class TTTBoard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
+
+        playAgain.setText("Start Next Round!");
+        playAgain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playAgainActionPerformed(evt);
+            }
+        });
+        getContentPane().add(playAgain);
+        playAgain.setBounds(350, 270, 230, 90);
 
         Row1Col1.setBackground(new java.awt.Color(65, 65, 65));
         Row1Col1.addActionListener(new java.awt.event.ActionListener() {
@@ -159,7 +176,7 @@ public class TTTBoard extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(120, 600, 670, 150);
 
-        background.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\NetBeansProjects\\CSCI_1302_Proj_4\\art\\tttBackground.png")); // NOI18N
+        background.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\tttBackground.png")); // NOI18N
         getContentPane().add(background);
         background.setBounds(0, 0, 900, 800);
 
@@ -171,206 +188,241 @@ public class TTTBoard extends javax.swing.JFrame {
     	return clickedButton;
     }
     
+    
     public boolean checkTurnP1(){
     	return player1Turn;
     }
+    
     
     public boolean checkTurnP2(){
     	return player2Turn;
     }
     
+    
     public void setTurnP2(){
     		player1Turn = false;
     		player2Turn = true;
+    		textArea.setText("Your turn, Player 2.");
     }
     	
+    
     public void setTurnP1(){
     		player2Turn = false;
     		player1Turn = true;
+    		textArea.setText("Your turn, Player 1.");
     	}
+    
+    public int checkClicked(){
+    	
+    	return buttonsClicked;
+    }
+    
+    
+    public void checkIfFull(){
+    	
+    	int buttonsChecked = checkClicked();
+    	boolean won = ttt.gameFinished();
+    	
+    	if(buttonsChecked > 8 && won == false){
+    		textArea.setText("No clear winner here. Click the button to play a new round.");
+    		playAgain.setVisible(true);
+    	}
+    	
+    }
+    
+    public void resetButtons(){
+    	
+    	Row1Col1.setIcon(null);
+    	Row1Col2.setIcon(null);
+    	Row1Col3.setIcon(null);
+    	Row2Col1.setIcon(null);
+    	Row2Col2.setIcon(null);
+    	Row2Col3.setIcon(null);
+    	Row3Col1.setIcon(null);
+    	Row3Col2.setIcon(null);
+    	Row3Col3.setIcon(null);
+    	
+    }
+    
+    public void resetBoard(){
+    	
+        resetButtons();
+        showAll();
+        playAgain.setVisible(false);
+        
+        if (player1Win){
+        	player1Turn = false;
+        	player2Turn = true;
+        	textArea.setText("Make the first move, Player 2.");
+        }
+        
+        else if (player2Win){
+        	player1Turn = true;
+        	player2Turn = false;
+        	textArea.setText("Make the first move, Player 1.");
+        }
+        
+        player1Win = false;
+        player2Win = false;
+        
+        buttonsClicked = 0;
+        ttt = new TicTacToe();
+    	
+    }
+    
+    public void hideAll(){
+    	
+    	Row1Col1.setVisible(false);
+    	Row1Col2.setVisible(false);
+    	Row1Col3.setVisible(false);
+    	Row2Col1.setVisible(false);
+    	Row2Col2.setVisible(false);
+    	Row2Col3.setVisible(false);
+    	Row3Col1.setVisible(false);
+    	Row3Col2.setVisible(false);
+    	Row3Col3.setVisible(false);
+    }
+    
+    public void showAll(){
+    	
+    	Row1Col1.setVisible(true);
+    	Row1Col2.setVisible(true);
+    	Row1Col3.setVisible(true);
+    	Row2Col1.setVisible(true);
+    	Row2Col2.setVisible(true);
+    	Row2Col3.setVisible(true);
+    	Row3Col1.setVisible(true);
+    	Row3Col2.setVisible(true);
+    	Row3Col3.setVisible(true);
+    	
+    }
+    
+    public void seeWhoWin(){
+    	
+    	boolean won = ttt.gameFinished();
+    	
+    	if (won == true){
+    		
+    		if (checkTurnP1() == false) {
+    			textArea.setText("Congratulations Player 1! You've won! Click the button to play again.");
+    			scoreP1++;
+    			setScoreP1(scoreP1);
+    			hideAll();
+    			playAgain.setVisible(true);
+    			player1Win = true;
+    		}
+    		
+    		else if (checkTurnP2() == false) {
+    			textArea.setText("Congratulations Player 2! You've won! Click the button to play again.");
+    			scoreP2++;
+    			setScoreP2(scoreP2);
+    			hideAll();
+    			playAgain.setVisible(true);
+    			player2Win = true;
+    		}
+    	}
+    	
+    }
+    
+    public void setPiece(JButton button, int x, int y){
+    	
+    	String clicked = String.valueOf(button.getIcon());
+    	
+    	if (clicked == "null"){
+    		
+    		if (checkTurnP1()){
+        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(O);
+    			setTurnP2();
+        	}
+        
+        	else if (checkTurnP2()){
+        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(X);
+    			setTurnP1();
+        	}
+    		
+    		ttt.play(x, y);
+    		buttonsClicked++;
+    		seeWhoWin();
+    		checkIfFull();
+    		
+    	}
+    }
    
     
     
     
-    private void Row1Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col1ActionPerformed
+    private void Row1Col1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
 
-    	String clicked = String.valueOf(Row1Col1.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row1Col1.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row1Col1.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+    		setPiece(Row1Col1, 0, 0);
     		
     	}
     	
-    	
-
-        
+          
     
 
     private void Row1Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col2ActionPerformed
         
-    	String clicked = String.valueOf(Row1Col2.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row1Col2.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row1Col2.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row1Col2, 0, 1);
+
     	
     }//GEN-LAST:event_Row1Col2ActionPerformed
 
     private void Row1Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col3ActionPerformed
 
-    	String clicked = String.valueOf(Row1Col3.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row1Col3.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row1Col3.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row1Col3, 0, 2); 		
+
     	
     }//GEN-LAST:event_Row1Col3ActionPerformed
 
     private void Row2Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col1ActionPerformed
 
-    	String clicked = String.valueOf(Row2Col1.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row2Col1.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row2Col1.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row2Col1, 1, 0);
+
+   		
     }//GEN-LAST:event_Row2Col1ActionPerformed
 
     private void Row2Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col2ActionPerformed
     	
-    	String clicked = String.valueOf(Row2Col2.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row2Col2.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row2Col2.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row2Col2, 1, 1);
+
+   		
     }//GEN-LAST:event_Row2Col2ActionPerformed
 
     private void Row2Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col3ActionPerformed
 
-    	String clicked = String.valueOf(Row2Col3.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row2Col3.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row2Col3.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row2Col3, 1, 2);
+
+   		
     }//GEN-LAST:event_Row2Col3ActionPerformed
 
     private void Row3Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col1ActionPerformed
 
-    	String clicked = String.valueOf(Row3Col1.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row3Col1.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row3Col1.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row3Col1, 2, 0);
+
+   		
     }//GEN-LAST:event_Row3Col1ActionPerformed
 
     private void Row3Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col2ActionPerformed
 
-    	String clicked = String.valueOf(Row3Col2.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row3Col2.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row3Col2.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row3Col2, 2, 1);
+
+   		
     }//GEN-LAST:event_Row3Col2ActionPerformed
 
     private void Row3Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col3ActionPerformed
 
-    	String clicked = String.valueOf(Row3Col3.getIcon());
-    	
-    	if (clicked == "null"){
-    		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			Row3Col3.setIcon(O);
-    			setTurnP2();
-        	}
-        
-        	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			Row3Col3.setIcon(X);
-    			setTurnP1();
-        	}
-    	}
+   		setPiece(Row3Col3, 2, 2);
+
     	
     }//GEN-LAST:event_Row3Col3ActionPerformed
+
+    private void playAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playAgainActionPerformed
+
+    	resetBoard();
+    	
+    }//GEN-LAST:event_playAgainActionPerformed
 
     
     
@@ -378,9 +430,19 @@ public class TTTBoard extends javax.swing.JFrame {
     
         player1Turn = true;
         player2Turn = false;
-    	
-    setSize(900, 800);
-    setVisible(true);
+        playAgain.setVisible(false);
+        buttonsClicked = 0;
+        ttt = new TicTacToe();
+        scoreP1 = 0;
+        scoreP2 = 0;
+        
+        
+        showAll();
+        setSize(900, 800);
+        setScoreP1(0);
+        setScoreP2(0);
+        setVisible(true);
+		textArea.setText("Welcome to Tic-Tac-Toe! Make the first move, Player 1.");
     
     }
     
@@ -397,9 +459,6 @@ public class TTTBoard extends javax.swing.JFrame {
     }
     
     
-    public void talk(String text){
-    	textArea.setText(text);
-    }
     
     
 
@@ -417,6 +476,7 @@ public class TTTBoard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField p1ScorePane;
     private javax.swing.JTextField p2ScorePane;
+    private javax.swing.JButton playAgain;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

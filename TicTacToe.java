@@ -6,6 +6,7 @@ public class TicTacToe {
 	private TicTacToeStack ticStack;
 	
 	public TicTacToe(){
+		ticStack = new TicTacToeStack();
 		board = new int[3][3];
 		player = 1;
 		gameFinished = false;
@@ -19,12 +20,12 @@ public class TicTacToe {
 		ticStack.push(new TicTacToeBoard(board));
 	}
 	
-	//This will place a piece on the board, with x being a 2 digit number with first digit being x value and second digit being y value.
-	public void play(int xy){
-		int x = xy/10;
-		int y = xy%10;
-		if(!(board[x][y] == 0)){
+	//This will place a piece on the board, with first digit being x value and second digit being y value.
+	public void play(int x, int y){
+		
+		if(board[x][y] == 0){
 			board[x][y] = player;
+			//System.out.println(String.valueOf(board[x][y]));
 			
 			//Keeps track of the history of the board as it's changed.
 			ticStack.push(new TicTacToeBoard(board));
@@ -53,27 +54,32 @@ public class TicTacToe {
 		return gameFinished;
 	}
 	
+	
 	public void checkFinished(){
 		//Checks if a 3-in-a-row has been made.
 		
 		for(int x = 0; x < 3; x++){
-			if(!(board[x][1] == 0) && board[x][1] == board[x][2] && board[x][1] == board[x][3]){
+			if(!(board[x][0] == 0) && board[x][0] == board[x][1] && board[x][1] == board[x][2]){
 				gameFinished = true;
+				//System.out.println("You win!");
 			}
 		}
 		
 		for(int y = 0; y < 3; y++){
-			if(!(board[1][y] == 0) && board[1][y] == board[2][y] && board[1][y] == board[3][y]){
+			if(!(board[0][y] == 0) && board[0][y] == board[1][y] && board[0][y] == board[2][y]){
 				gameFinished = true;
+				//System.out.println("You win!");
 			}
 		}
 		
-		if(!(board[1][1] == 0) && board[1][1] == board[2][2] && board[1][1] == board[3][3]){
+		if(!(board[0][0] == 0) && board[0][0] == board[1][1] && board[0][0] == board[2][2]){
 			gameFinished = true;
+			//System.out.println("You win!");
 		}
 		
-		if(!(board[1][3] == 0) && board[1][3] == board[2][2] && board[1][3] == board[3][1]){
+		if(!(board[0][2] == 0) && board[0][2] == board[1][1] && board[0][2] == board[2][0]){
 			gameFinished = true;
+			//System.out.println("You win!");
 		}
 	}
 }

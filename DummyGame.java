@@ -15,10 +15,11 @@ public class DummyGame {
         TTTBoard tBoard = new TTTBoard();
         tBoard.makeFrame();
         
-      //For Tic Tac Toe
+      /*For Tic Tac Toe
         tBoard.setScoreP1(10);
         tBoard.setScoreP2(20);
         tBoard.talk("Hi boy");
+        */
         
                 
         
