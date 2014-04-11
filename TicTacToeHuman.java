@@ -5,7 +5,7 @@ public class TicTacToeHuman extends TicTacToePlayer{
 		
 	}
 	
-	public int makeChoice(int[][] board){
-		return 0;
+	public void makeChoice(int[][] board){
+		
 	}
 }

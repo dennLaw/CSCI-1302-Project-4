@@ -20,6 +20,10 @@ public class TicTacToe {
 		ticStack.push(new TicTacToeBoard(board));
 	}
 	
+	public int[][] returnBoard(){
+		return board;
+	}
+	
 	//This will place a piece on the board, with first digit being x value and second digit being y value.
 	public void play(int x, int y){
 		

@@ -22,11 +22,31 @@ public class TTTBoard extends javax.swing.JFrame {
     boolean player2Turn;
     boolean player1Win;
     boolean player2Win;
+    boolean ai;
     int buttonsClicked;
     int scoreP1;
     int scoreP2;
+    int firstMove;
     TicTacToe ttt;
-    
+    TicTacToeAI sam;
+    ImageIcon R1C1;
+    ImageIcon R1C2;
+    ImageIcon R1C3;
+    ImageIcon R2C1;
+    ImageIcon R2C2;
+    ImageIcon R2C3;
+    ImageIcon R3C1;
+    ImageIcon R3C2;
+    ImageIcon R3C3;
+    ImageIcon BR1C1;
+    ImageIcon BR1C2;
+    ImageIcon BR1C3;
+    ImageIcon BR2C1;
+    ImageIcon BR2C2;
+    ImageIcon BR2C3;
+    ImageIcon BR3C1;
+    ImageIcon BR3C2;
+    ImageIcon BR3C3;
 	
     public TTTBoard() {
         initComponents();
@@ -42,6 +62,7 @@ public class TTTBoard extends javax.swing.JFrame {
     private void initComponents() {
 
         playAgain = new javax.swing.JButton();
+        undoButton = new javax.swing.JButton();
         Row1Col1 = new javax.swing.JButton();
         Row1Col2 = new javax.swing.JButton();
         Row1Col3 = new javax.swing.JButton();
@@ -56,6 +77,7 @@ public class TTTBoard extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
         background = new javax.swing.JLabel();
+        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -68,6 +90,17 @@ public class TTTBoard extends javax.swing.JFrame {
         });
         getContentPane().add(playAgain);
         playAgain.setBounds(350, 270, 230, 90);
+
+        undoButton.setForeground(new java.awt.Color(255, 51, 0));
+        undoButton.setText("Undo");
+        undoButton.setOpaque(false);
+        undoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(undoButton);
+        undoButton.setBounds(410, 30, 70, 45);
 
         Row1Col1.setBackground(new java.awt.Color(65, 65, 65));
         Row1Col1.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +209,7 @@ public class TTTBoard extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(120, 600, 670, 150);
 
-        background.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\tttBackground.png")); // NOI18N
+        background.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\tttBackground.png"));
         getContentPane().add(background);
         background.setBounds(0, 0, 900, 800);
 
@@ -225,6 +258,7 @@ public class TTTBoard extends javax.swing.JFrame {
     	
     	if(buttonsChecked > 8 && won == false){
     		textArea.setText("No clear winner here. Click the button to play a new round.");
+    		undoButton.setVisible(false);
     		playAgain.setVisible(true);
     	}
     	
@@ -241,14 +275,57 @@ public class TTTBoard extends javax.swing.JFrame {
     	Row3Col1.setIcon(null);
     	Row3Col2.setIcon(null);
     	Row3Col3.setIcon(null);
+    	undoButton.setVisible(false);
     	
     }
+    
+    
+    public void resetIcons(){
+    	
+    	R1C1 = null;
+    	R1C2 = null;
+    	R1C3 = null;
+    	R2C1 = null;
+    	R2C2 = null;
+    	R2C3 = null;
+    	R3C1 = null;
+    	R3C2 = null;
+    	R3C3 = null;
+    	BR1C1 = null;
+    	BR1C2 = null;
+    	BR1C3 = null;
+    	BR2C1 = null;
+    	BR2C2 = null;
+    	BR2C3 = null;
+    	BR3C1 = null;
+    	BR3C2 = null;
+    	BR3C3 = null;
+    	
+    }
+    
+    
+    public void makeBackUp(){
+    
+    	BR1C1 = R1C1;
+    	BR1C2 = R1C2;
+    	BR1C3 = R1C3;
+    	BR2C1 = R2C1;
+    	BR2C2 = R2C2;
+    	BR2C3 = R2C3;
+    	BR3C1 = R3C1;
+    	BR3C2 = R3C2;
+    	BR3C3 = R3C3;
+    	   	
+    }
+    
     
     public void resetBoard(){
     	
         resetButtons();
+        resetIcons();
         showAll();
         playAgain.setVisible(false);
+        firstMove = 0;
         
         if (player1Win){
         	player1Turn = false;
@@ -262,11 +339,61 @@ public class TTTBoard extends javax.swing.JFrame {
         	textArea.setText("Make the first move, Player 1.");
         }
         
+        else
+        	textArea.setText("Make the first move, Player 1.");
+        
         player1Win = false;
         player2Win = false;
         
         buttonsClicked = 0;
         ttt = new TicTacToe();
+    	
+    }
+    
+    public void pushToAI(){
+    	
+    	sam.makeChoice(ttt.returnBoard());
+    	int x = sam.returnXChoice();
+    	int y = sam.returnYChoice();
+    	ttt.play(x, y);
+    	
+    	if (x == 0 && y == 0){
+    		setPiece(Row1Col1, x, y);
+    	}
+    	
+    	else if (x == 0 && y == 1){
+    		setPiece(Row1Col2, x, y);
+    	}
+    	
+    	else if (x == 0 && y == 2){
+    		setPiece(Row1Col3, x, y);
+    	}
+    	
+    	else if (x == 1 && y == 0){
+    		setPiece(Row2Col1, x, y);
+    	}
+    	
+    	else if (x == 1 && y == 1){
+    		setPiece(Row2Col2, x, y);
+    	}
+    	
+    	else if (x == 1 && y == 2){
+    		setPiece(Row2Col3, x, y);
+    	}
+    	
+    	else if (x == 2 && y == 0){
+    		setPiece(Row3Col1, x, y);
+    	}
+    	
+    	else if (x == 2 && y == 1){
+    		setPiece(Row3Col2, x, y);
+    	}
+    	
+    	else if (x == 2 && y == 2){
+    		setPiece(Row3Col3, x, y);
+    	}
+    	
+    	setTurnP1();
     	
     }
     
@@ -303,6 +430,7 @@ public class TTTBoard extends javax.swing.JFrame {
     	
     	if (won == true){
     		
+    		undoButton.setVisible(false);
     		if (checkTurnP1() == false) {
     			textArea.setText("Congratulations Player 1! You've won! Click the button to play again.");
     			scoreP1++;
@@ -322,40 +450,195 @@ public class TTTBoard extends javax.swing.JFrame {
     		}
     	}
     	
+    	else
+    		checkIfFull();
+    	
     }
+    
+    public void setIconPic(JButton button, String piece, int x, int y){
+		
+    	if (x == 0 && y == 0){
+    		if (piece.equals("O")){
+    			R1C1 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R1C1);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R1C1 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R1C1);
+    		}
+    	}
+    	
+    	else if (x == 0 && y == 1){
+    		if (piece.equals("O")){
+    			R1C2 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R1C2);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R1C2 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R1C2);
+    		}
+    	}
+    	
+    	else if (x == 0 && y == 2){
+    		if (piece.equals("O")){
+    			R1C3 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R1C3);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R1C3 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R1C3);
+    		}
+    	}
+    	
+    	else if (x == 1 && y == 0){
+    		if (piece.equals("O")){
+    			R2C1 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R2C1);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R2C1 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R2C1);
+    		}
+    	}
+    	
+    	else if (x == 1 && y == 1){
+    		if (piece.equals("O")){
+    			R2C2 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R2C2);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R2C2 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R2C2);
+    		}
+    	}
+    	
+    	else if (x == 1 && y == 2){
+    		if (piece.equals("O")){
+    			R2C3 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R2C3);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R2C3 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R2C3);
+    		}
+    	}
+    	
+    	else if (x == 2 && y == 0){
+    		if (piece.equals("O")){
+    			R3C1 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R3C1);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R3C1 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R3C1);
+    		}
+    	}
+    	
+    	else if (x == 2 && y == 1){
+    		if (piece.equals("O")){
+    			R3C2 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R3C2);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R3C2 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R3C2);
+    		}
+    	}
+    	
+    	else if (x == 2 && y == 2){
+    		if (piece.equals("O")){
+    			R3C3 = new ImageIcon(projPath + "\\art\\oPiece.png");
+    			button.setIcon(R3C3);
+    		}
+    		
+    		else if(piece.equals("X")){
+    			R3C3 = new ImageIcon(projPath + "\\art\\xPiece.png");
+    			button.setIcon(R3C3);
+    		}
+    	}
+    }
+    
     
     public void setPiece(JButton button, int x, int y){
     	
     	String clicked = String.valueOf(button.getIcon());
     	
+    	if (firstMove == 0){
+    		firstMove++;
+    		undoButton.setVisible(true);
+    	}
+    	
     	if (clicked == "null"){
     		
     		if (checkTurnP1()){
-        		ImageIcon O = new ImageIcon(projPath + "\\art\\oPiece.png");
-    			button.setIcon(O);
+    			setIconPic(button, "O", x, y);
     			setTurnP2();
         	}
         
         	else if (checkTurnP2()){
-        		ImageIcon X = new ImageIcon(projPath + "\\art\\xPiece.png");
-    			button.setIcon(X);
+    			setIconPic(button, "X", x, y);
     			setTurnP1();
         	}
     		
     		ttt.play(x, y);
     		buttonsClicked++;
     		seeWhoWin();
-    		checkIfFull();
     		
     	}
     }
    
-    
+    public void undoBoard(){
+    	
+    	undoButton.setVisible(false);
+    	ttt.undo();
+    	firstMove = 0;
+    	buttonsClicked--;
+    	R1C1 = BR1C1;
+    	R1C2 = BR1C2;
+    	R1C3 = BR1C3;
+    	R2C1 = BR2C1;
+    	R2C2 = BR2C2;
+    	R2C3 = BR2C3;
+    	R3C1 = BR3C1;
+    	R3C2 = BR3C2;
+    	R3C3 = BR3C3;
+    	
+    	Row1Col1.setIcon(R1C1);  
+    	Row1Col2.setIcon(R1C2);
+    	Row1Col3.setIcon(R1C3);
+    	Row2Col1.setIcon(R2C1);
+    	Row2Col2.setIcon(R2C2);
+    	Row2Col3.setIcon(R2C3);
+    	Row3Col1.setIcon(R3C1);
+    	Row3Col2.setIcon(R3C2);
+    	Row3Col3.setIcon(R3C3);
+    	
+    	if(checkTurnP1()){
+    		setTurnP2();
+    	}
+    	
+    	else if (checkTurnP2()){
+    		setTurnP1();
+    	}
+    	
+    }
     
     
     private void Row1Col1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
 
+			makeBackUp();
     		setPiece(Row1Col1, 0, 0);
+       		if (ai == true){
+       			pushToAI();
+       		}
     		
     	}
     	
@@ -363,58 +646,79 @@ public class TTTBoard extends javax.swing.JFrame {
     
 
     private void Row1Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col2ActionPerformed
-        
+ 
+   		makeBackUp();
    		setPiece(Row1Col2, 0, 1);
-
+   		if (ai == true){
+   			pushToAI();
+   		}
     	
     }//GEN-LAST:event_Row1Col2ActionPerformed
 
     private void Row1Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row1Col3ActionPerformed
 
-   		setPiece(Row1Col3, 0, 2); 		
-
+    	makeBackUp();
+   		setPiece(Row1Col3, 0, 2);
+   		if (ai == true){
+   			pushToAI();
+   		}
     	
     }//GEN-LAST:event_Row1Col3ActionPerformed
 
     private void Row2Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col1ActionPerformed
 
+    	makeBackUp();
    		setPiece(Row2Col1, 1, 0);
-
+   		if (ai == true){
+   			pushToAI();
+   		}
    		
     }//GEN-LAST:event_Row2Col1ActionPerformed
 
     private void Row2Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col2ActionPerformed
     	
+    	makeBackUp();
    		setPiece(Row2Col2, 1, 1);
-
+   		if (ai == true){
+   			pushToAI();
+   		}
    		
     }//GEN-LAST:event_Row2Col2ActionPerformed
 
     private void Row2Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row2Col3ActionPerformed
 
+    	makeBackUp();
    		setPiece(Row2Col3, 1, 2);
-
+   		if (ai == true){
+   			pushToAI();
+   		}
    		
     }//GEN-LAST:event_Row2Col3ActionPerformed
 
     private void Row3Col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col1ActionPerformed
 
+    	makeBackUp();
    		setPiece(Row3Col1, 2, 0);
-
+   		if (ai == true){
+   			pushToAI();
+   		}
    		
     }//GEN-LAST:event_Row3Col1ActionPerformed
 
     private void Row3Col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col2ActionPerformed
-
+    	
+    	makeBackUp();
    		setPiece(Row3Col2, 2, 1);
-
    		
     }//GEN-LAST:event_Row3Col2ActionPerformed
 
     private void Row3Col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Row3Col3ActionPerformed
-
+    	
+    	makeBackUp();
    		setPiece(Row3Col3, 2, 2);
-
+   		if (ai == true){
+   			pushToAI();
+   		}
     	
     }//GEN-LAST:event_Row3Col3ActionPerformed
 
@@ -424,18 +728,32 @@ public class TTTBoard extends javax.swing.JFrame {
     	
     }//GEN-LAST:event_playAgainActionPerformed
 
+    private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoButtonActionPerformed
+        
+    	undoBoard();
+    	
+    }//GEN-LAST:event_undoButtonActionPerformed
+
     
     
-    public void makeFrame(){
+    public void makeFrame(String opponent){
     
         player1Turn = true;
         player2Turn = false;
+        ai = false;
         playAgain.setVisible(false);
+        undoButton.setVisible(false);
         buttonsClicked = 0;
         ttt = new TicTacToe();
         scoreP1 = 0;
         scoreP2 = 0;
+        firstMove = 0;
+        resetIcons();
         
+        if (opponent.equalsIgnoreCase("Computer")){
+        	ai = true;
+        	sam = new TicTacToeAI(1);
+        }
         
         showAll();
         setSize(900, 800);
@@ -478,5 +796,6 @@ public class TTTBoard extends javax.swing.JFrame {
     private javax.swing.JTextField p2ScorePane;
     private javax.swing.JButton playAgain;
     private javax.swing.JTextArea textArea;
+    private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
 }

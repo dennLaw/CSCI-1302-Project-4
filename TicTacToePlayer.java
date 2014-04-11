@@ -1,5 +1,5 @@
 
 public abstract class TicTacToePlayer {
 
-	public abstract int makeChoice(int[][] board);
+	public abstract void makeChoice(int[][] board);
 }

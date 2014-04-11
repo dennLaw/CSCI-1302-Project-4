@@ -13,7 +13,7 @@ public class DummyGame {
     public static void main(String args[]){
     	
         TTTBoard tBoard = new TTTBoard();
-        tBoard.makeFrame();
+        tBoard.makeFrame("computer");
         
       /*For Tic Tac Toe
         tBoard.setScoreP1(10);
