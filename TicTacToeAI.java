@@ -43,9 +43,9 @@ public class TicTacToeAI extends TicTacToePlayer{
 	}
 	
 	public void toddlerC(int[][] board){
-		 
-		 xCoord = math.nextInt(2); 
-		 yCoord = math.nextInt(2);
+		
+		xCoord = (int)(Math.random()*3);
+		yCoord = (int)(Math.random()*3);
 	}
 	
 	public void intermediateC(int[][] board){

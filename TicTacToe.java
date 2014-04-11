@@ -25,7 +25,7 @@ public class TicTacToe {
 	}
 	
 	//This will place a piece on the board, with first digit being x value and second digit being y value.
-	public void play(int x, int y){
+	public int play(int x, int y){
 		
 		if(board[x][y] == 0){
 			board[x][y] = player;
@@ -46,6 +46,8 @@ public class TicTacToe {
 		else{
 			//Show a message saying they cannot select an already played spot.
 		}
+		
+		return player;
 	}
 	
 	//Undo an action.
