@@ -355,45 +355,50 @@ public class TTTBoard extends javax.swing.JFrame {
     	sam.makeChoice(ttt.returnBoard());
     	int x = sam.returnXChoice();
     	int y = sam.returnYChoice();
-    	ttt.play(x, y);
+    	int player = ttt.play(x, y);
     	
-    	if (x == 0 && y == 0){
-    		setPiece(Row1Col1, x, y);
-    	}
-    	
-    	else if (x == 0 && y == 1){
-    		setPiece(Row1Col2, x, y);
-    	}
-    	
-    	else if (x == 0 && y == 2){
-    		setPiece(Row1Col3, x, y);
-    	}
-    	
-    	else if (x == 1 && y == 0){
-    		setPiece(Row2Col1, x, y);
-    	}
-    	
-    	else if (x == 1 && y == 1){
-    		setPiece(Row2Col2, x, y);
-    	}
-    	
-    	else if (x == 1 && y == 2){
-    		setPiece(Row2Col3, x, y);
-    	}
-    	
-    	else if (x == 2 && y == 0){
-    		setPiece(Row3Col1, x, y);
-    	}
-    	
-    	else if (x == 2 && y == 1){
-    		setPiece(Row3Col2, x, y);
-    	}
-    	
-    	else if (x == 2 && y == 2){
-    		setPiece(Row3Col3, x, y);
-    	}
-    	
-    	setTurnP1();
+    	//if(player == 1){
+	    	if (x == 0 && y == 0){
+	    		setPiece(Row1Col1, x, y);
+	    	}
+	    	
+	    	else if (x == 0 && y == 1){
+	    		setPiece(Row1Col2, x, y);
+	    	}
+	    	
+	    	else if (x == 0 && y == 2){
+	    		setPiece(Row1Col3, x, y);
+	    	}
+	    	
+	    	else if (x == 1 && y == 0){
+	    		setPiece(Row2Col1, x, y);
+	    	}
+	    	
+	    	else if (x == 1 && y == 1){
+	    		setPiece(Row2Col2, x, y);
+	    	}
+	    	
+	    	else if (x == 1 && y == 2){
+	    		setPiece(Row2Col3, x, y);
+	    	}
+	    	
+	    	else if (x == 2 && y == 0){
+	    		setPiece(Row3Col1, x, y);
+	    	}
+	    	
+	    	else if (x == 2 && y == 1){
+	    		setPiece(Row3Col2, x, y);
+	    	}
+	    	
+	    	else if (x == 2 && y == 2){
+	    		setPiece(Row3Col3, x, y);
+	    	}
+	    	
+	    	setTurnP1();
+	    //	}
+    	//else{
+    	//	pushToAI();
+    	//}
     	
     }
     

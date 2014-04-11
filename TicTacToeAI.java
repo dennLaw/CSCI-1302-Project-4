@@ -49,46 +49,47 @@ public class TicTacToeAI extends TicTacToePlayer{
 	}
 	
 	public void intermediateC(int[][] board){
-		if(board[0][0] == 1 && board[0][1] == 1 || board[1][2] == 1 && board[2][2] == 1 || board[2][0] == 1 && board[1][1] == 1){
+		if(board[0][2] != 2 && (board[0][0] == 1 && board[0][1] == 1 || board[1][2] == 1 && board[2][2] == 1 || board[2][0] == 1 && board[1][1] == 1)){
+		
 			xCoord = 0;
 			yCoord = 2;
 		}
-		else if(board[0][1] == 1 && board[0][2] == 1 || board[1][0] == 1 && board[2][0] == 1 || board[1][1] == 1 && board[2][2] == 1){
+		else if(board[0][0] != 2 && (board[0][1] == 1 && board[0][2] == 1 || board[1][0] == 1 && board[2][0] == 1 || board[1][1] == 1 && board[2][2] == 1)){
 			xCoord = 0;
 			yCoord = 0;
 		}
-		else if(board[0][0] == 1 && board[0][2] == 1 || board[1][1] == 1 && board[2][1] == 1){
+		else if(board[0][1] != 2 && (board[0][0] == 1 && board[0][2] == 1 || board[1][1] == 1 && board[2][1] == 1)){
 
 			xCoord = 0;
 			yCoord = 1;
 		}
-		else if(board[1][0] == 1 && board[1][1] == 1 || board[2][2] == 1 && board[0][2] == 1){
+		else if(board[1][2] != 2 && (board[1][0] == 1 && board[1][1] == 1 || board[2][2] == 1 && board[0][2] == 1)){
 
 			xCoord = 1;
 			yCoord = 2;
 			
 		}
-		else if(board[1][0] == 1 && board[1][2] == 1 || board[0][1] == 1 && board[2][1] == 1 || board[0][0] == 1 && board[2][2] == 1 || board[0][2] == 1 && board[2][0] == 1){
+		else if(board[1][1] != 2 && (board[1][0] == 1 && board[1][2] == 1 || board[0][1] == 1 && board[2][1] == 1 || board[0][0] == 1 && board[2][2] == 1 || board[0][2] == 1 && board[2][0] == 1)){
 
 			xCoord = 1;
 			yCoord = 1;
 		}
-		else if(board[1][1] == 1 && board[1][2] == 1 || board[0][0] == 1 && board[2][0] == 1){
+		else if(board[1][0] != 2 && (board[1][1] == 1 && board[1][2] == 1 || board[0][0] == 1 && board[2][0] == 1)){
 
 			xCoord = 1;
 			yCoord = 0;
 		}
-		else if(board[2][0] == 1 && board[2][1] == 1 || board[1][1] == 1 && board[1][2] == 1 || board[0][0] == 1 && board[1][1] == 1){
+		else if(board[2][2] != 2 && (board[2][0] == 1 && board[2][1] == 1 || board[1][1] == 1 && board[1][2] == 1 || board[0][0] == 1 && board[1][1] == 1)){
 
 			xCoord = 2;
 			yCoord = 2;
 		}
-		else if(board[2][0] == 1 && board[2][2] == 1 || board[0][1] == 1 && board[1][1] == 1){
+		else if(board[2][1] != 2 && (board[2][0] == 1 && board[2][2] == 1 || board[0][1] == 1 && board[1][1] == 1)){
 
 			xCoord = 2;
 			yCoord = 1;
 		}
-		else if(board[2][1] == 1 && board[2][2] == 1 || board[1][0] == 1 && board[0][0] == 1 || board[0][2] == 1 && board[1][1] == 1){
+		else if(board[2][0] != 2 && (board[2][1] == 1 && board[2][2] == 1 || board[1][0] == 1 && board[0][0] == 1 || board[0][2] == 1 && board[1][1] == 1)){
 
 			xCoord = 2;
 			yCoord = 0;
