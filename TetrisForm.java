@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class TetrisForm extends javax.swing.JFrame {
+public class TetrisForm extends TetrisFormParent {
 
     /**
      * Creates new form TetrisForm

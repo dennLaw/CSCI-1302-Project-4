@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class TetrisFormFP extends javax.swing.JFrame {
+public class TetrisFormFP extends TetrisFormParent {
 
     /**
      * Creates new form TetrisForm
@@ -130,9 +130,20 @@ public class TetrisFormFP extends javax.swing.JFrame {
     	blok.setBounds(x, y, width, height);
     }
     
+    public void resetCurrentCoord(){
+    	currentX = startingX;
+    	currentX2 = startingX;
+    	currentX3 = startingX;
+    	currentX4 = startingX;
+    	currentY = startingY;
+    	currentY2 = startingY;
+    	currentY3 = startingY;
+    	currentY4 = startingY;
+    }
     
     public void resetPosition(){
     
+    resetCurrentCoord();
     blockLabel.setBounds(startingX, startingY, width, height);
     block2Label.setBounds(startingX, startingY, width, height);
     block3Label.setBounds(startingX, startingY, width, height);
@@ -140,12 +151,181 @@ public class TetrisFormFP extends javax.swing.JFrame {
     
     }
     
+    
+    public void moveLeft(){
+        
+    	
+    	System.out.println("move left");
+    	
+    }   
+    
+    public void moveRight(){
+        
+    }
+    
+    public void drop(){
+        
+    }
+    
+    
+    public void moveDown(int blockID){
+    	
+    	if (blockID == 1){
+        	currentY = currentY + 31;
+        	blockLabel.setBounds(currentX, currentY, width, height);
+    	}
+    	
+    	else if(blockID == 2){
+        	currentY2 = currentY2 + 31;
+        	block2Label.setBounds(currentX2, currentY2, width, height);
+    	}
+    	
+    	else if(blockID == 3){
+        	currentY3 = currentY3 + 31;
+        	block3Label.setBounds(currentX3, currentY3, width, height);
+    	}
+    	
+    	else if(blockID == 4){
+        	currentY4 = currentY4 + 31;
+        	block4Label.setBounds(currentX4, currentY4, width, height);
+    	}
+
+    }
+    
+    public void setBlockPos(int blockID, int xPos, int yPos){
+    	
+    	if (blockID == 1){
+    		currentX = 31*xPos;
+        	currentY = 31*yPos;
+        	blockLabel.setBounds(currentX, currentY, width, height);
+    	}
+    	
+    	else if(blockID == 2){
+    		currentX2 = 31*xPos;
+        	currentY2 = 31*yPos;
+        	block2Label.setBounds(currentX2, currentY2, width, height);
+    	}
+    	
+    	else if(blockID == 3){
+    		currentX3 = 31*xPos;
+        	currentY3 = 31*yPos;
+        	block3Label.setBounds(currentX3, currentY3, width, height);
+    	}
+    	
+    	else if(blockID == 4){
+    		currentX4 = 31*xPos;
+        	currentY4 = 31*yPos;
+        	block4Label.setBounds(currentX4, currentY4, width, height);
+    	}
+
+    }
+    
+    public void clearBlockType(){
+    	
+    	finalBlockType = 0;
+    	
+    }
+    
+    
+    public int getActiveBlockPosX(int blockID){
+    	
+    	if (blockID == 1){
+    		return currentX;
+    	}
+    	
+    	else if (blockID == 2){
+    		return currentX2;
+    	}
+    	
+    	else if (blockID == 3){
+    		return currentX3;
+    	}
+    	
+    	else if (blockID == 4){
+    		return currentX4;
+    	}
+    	
+    	else
+    		return startingX;
+    }
+    
+    public int getActiveBlockPosY(int blockID){
+    	
+    	if (blockID == 1){
+    		return currentY;
+    	}
+    	
+    	else if (blockID == 2){
+    		return currentY2;
+    	}
+    	
+    	else if (blockID == 3){
+    		return currentY3;
+    	}
+    	
+    	else if (blockID == 4){
+    		return currentY4;
+    	}
+    	
+    	else
+    		return startingY;
+    }
+    
+    
     public void setScore(int score){
     	String scoreString = String.valueOf(score);
     	scoreBoard.setText(scoreString);
     }
     
-    public void previewQueue(int paneNum, int blockType){
+    
+    
+    public boolean checkPos(int xCo, int yCo){
+    	boolean somethingThere = false;
+
+    	
+    	if(placedLabels[xCo][yCo] != null){
+    		somethingThere = true;
+    	}
+    	
+    	return somethingThere;
+    }
+    
+    
+
+    
+    public void wipeBlock(int xCo, int yCo){
+    	
+    	boolean somethingThere = checkPos(xCo, yCo);
+    	
+    	if (somethingThere == true){
+        	placedLabels[xCo][yCo].setVisible(false);
+        	LayeredPane.remove(placedLabels[xCo][yCo]);
+        	remove(placedLabels[xCo][yCo]);
+    	}
+    	
+    	placedLabels[xCo][yCo] = null;
+    }
+    
+    
+    public void setBlockRow(JLabel block, int xCol, int yRow){
+     	
+    	boolean blockThere = false; 	
+     	
+    	placedLabels[xCol][yRow] = block;
+    	blockThere = checkPos(xCol, yRow);
+    	
+    	if (blockThere == true){
+    	block.setBounds(xCol*31, yRow*31, 31, 31);
+    	}
+    	
+    	
+    }
+    
+    public JLabel getBlockRow (int xPos, int yPos){
+    	return placedLabels[xPos][yPos];
+    }
+    
+public void previewQueue(int paneNum, int blockType){
     	
     	if (paneNum == 1){
     		
@@ -265,7 +445,7 @@ public class TetrisFormFP extends javax.swing.JFrame {
     	}
     	
     	else if (paneNum == 4){
-    		
+
     		if (blockType == 1){
     			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\1Ibeam.png");
     			nextQueue4.setIcon(piecePic);
@@ -306,139 +486,13 @@ public class TetrisFormFP extends javax.swing.JFrame {
     }
     
     
-    public void moveLeft(){
-        
-    	
-    	System.out.println("move left");
-    	
-    }   
-    
-    public void moveRight(){
-        
-    }
-    
-    public void drop(){
-        
-    }
-    
-    
-    public void moveDown(int blockID){
-    	
-    	if (blockID == 1){
-        	currentY = currentY + 31;
-        	blockLabel.setBounds(currentX, currentY, width, height);
-    	}
-    	
-    	else if(blockID == 2){
-        	currentY2 = currentY2 + 31;
-        	block2Label.setBounds(currentX2, currentY2, width, height);
-    	}
-    	
-    	else if(blockID == 3){
-        	currentY3 = currentY3 + 31;
-        	block3Label.setBounds(currentX3, currentY3, width, height);
-    	}
-    	
-    	else if(blockID == 4){
-        	currentY4 = currentY4 + 31;
-        	block4Label.setBounds(currentX4, currentY4, width, height);
-    	}
-
-    }
-    
-    public void setBlockPos(int blockID, int xPos, int yPos){
-    	
-    	if (blockID == 1){
-    		currentX = 31*xPos;
-        	currentY = 31*yPos;
-        	blockLabel.setBounds(currentX, currentY, width, height);
-    	}
-    	
-    	else if(blockID == 2){
-    		currentX2 = 31*xPos;
-        	currentY2 = 31*yPos;
-        	block2Label.setBounds(currentX2, currentY2, width, height);
-    	}
-    	
-    	else if(blockID == 3){
-    		currentX3 = 31*xPos;
-        	currentY3 = 31*yPos;
-        	block3Label.setBounds(currentX3, currentY3, width, height);
-    	}
-    	
-    	else if(blockID == 4){
-    		currentX4 = 31*xPos;
-        	currentY4 = 31*yPos;
-        	block4Label.setBounds(currentX4, currentY4, width, height);
-    	}
-
-    }
-    
-    public void clearBlockType(){
-    	
-    	finalBlockType = 0;
-    	
-    }
-    
-    public boolean checkForBlock(int xCo, int yCo){
-    	
-    	boolean blockThere = false;
-    	String isThere = String.valueOf(placedLabels[xCo][yCo]);
-    	if (isThere != null){
-    		blockThere = true;
-    		System.out.println("block is here");
-    	}
-    	return blockThere;
-    	
-    }
-    
-    public boolean checkPos(int xCo, int yCo){
-    	boolean somethingThere = false;
-    	
-    	String placedBlocks = String.valueOf(placedLabels[xCo][yCo]);
-    	
-    	if(placedBlocks != "null"){
-    		somethingThere = true;
-    	}
-    	
-    	return somethingThere;
-    }
-    
-    
-
-    
-    public void wipeBlock(int xCo, int yCo){
-    	
-    	placedLabels[xCo][yCo].setVisible(false);
-    	LayeredPane.remove(placedLabels[xCo][yCo]);
-    	placedLabels[xCo][yCo] = null;
-    }
-    
-    
-    public void setBlockRow(JLabel block, int xCol, int yRow){
-    	placedLabels[xCol][yRow] = block;
-    	
-    	boolean blockThere = checkPos(xCol, yRow);
-    	
-    	if (blockThere == true){
-    		System.out.println("block is here");
-    	block.setBounds(xCol*31, yRow*31, 31, 31);
-    	}
-    	
-    	
-    }
-    
-    public JLabel getBlockRow (int xPos, int yPos){
-    	return placedLabels[xPos][yPos];
-    }
-    
-    
     public void placeBlock(int xPos, int yPos){
     
     	resetPosition();
     	JLabel finalBlock = new JLabel();
     	int blockW = 0;
     	int blockH = 0;
+    	boolean blockAlreadyThere = checkPos(xPos, yPos);
     	
     	if (finalBlockType == 1)
     	{
@@ -496,6 +550,11 @@ public class TetrisFormFP extends javax.swing.JFrame {
     		blockH = blockPic.getIconHeight();
     	}
         
+    	if (blockAlreadyThere == true){
+    		wipeBlock(xPos, yPos);
+    	}
+    	
+    	
     	LayeredPane.add(finalBlock);
         LayeredPane.moveToFront(finalBlock);
         
@@ -675,6 +734,7 @@ public class TetrisFormFP extends javax.swing.JFrame {
     nextQueue2.setIcon(null);
     nextQueue3.setIcon(null);
     nextQueue4.setIcon(null);
+    scoreBoard.setText("0");
     
     LayeredPane.add(blockLabel);
     LayeredPane.add(block2Label);
@@ -728,16 +788,16 @@ public class TetrisFormFP extends javax.swing.JFrame {
         getContentPane().add(nextQueue3);
         nextQueue3.setBounds(622, 350, 80, 100);
         getContentPane().add(nextQueue4);
-        nextQueue4.setBounds(622, 464, 80, 100);
+        nextQueue4.setBounds(622, 468, 80, 100);
 
         scoreBoard.setForeground(new java.awt.Color(102, 153, 255));
         scoreBoard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(scoreBoard);
         scoreBoard.setBounds(40, 70, 210, 110);
 
-        backgroundImage.setIcon(new javax.swing.ImageIcon("C:\\Users\\KLZ de Panama\\Documents\\GitHub\\CSCI-1302-Project-4\\art\\background_4Piece.png")); // NOI18N
+        backgroundImage.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\background_4Piece.png")); // NOI18N
         getContentPane().add(backgroundImage);
-        backgroundImage.setBounds(0, 0, 800, 850);
+        backgroundImage.setBounds(0, 0, 850, 850);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -4,7 +4,7 @@ public class P4Arcade {
 	
 	public static void main(String[] args) throws InterruptedException {
 		String projPath = System.getProperty("user.dir");
-		TetrisBoard tetB = new TetrisBoard();
+		TetrisBoard tetB = new TetrisBoard(4);
 		tetB.createForm();
 		//tetB.tick();
 		

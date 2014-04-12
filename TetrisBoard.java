@@ -13,9 +13,9 @@ public class TetrisBoard{
 	private boolean collisionOnce; //Used for checking if a single tick passed and a block is blocked from going down twice.
 	private boolean collisionTwice;
 	private boolean placeBlock;
-	private TetrisForm guiBoard;
+	private TetrisFormParent guiBoard;
 	
-	public TetrisBoard(){
+	public TetrisBoard(int piecesToShow){
 		gameFinish = false;
 		blockInPlay = false;
 		collisionOnce = false;
@@ -23,7 +23,16 @@ public class TetrisBoard{
 		placeBlock = false;
 		score = 0;
 		tetGen = new TetriminoGenerator();
-		guiBoard = new TetrisForm();
+		
+		if(piecesToShow == 0){
+			guiBoard = new TetrisForm();
+		}
+		else if(piecesToShow == 1){
+			guiBoard = new TetrisFormNP();
+		}
+		else{
+			guiBoard = new TetrisFormFP();
+		}
 		
 		//Construct the Tetrimino queue here.
 		
@@ -39,9 +48,6 @@ public class TetrisBoard{
 			}
 		}
 		
-		for(int i = 3; i > -1; i--){
-			guiBoard.previewQueue(i, tetQ.element(i).getType());
-		}
 	}
 	
 	public void createForm() {
@@ -75,6 +81,10 @@ public class TetrisBoard{
 			}
 			
 			testPrint();
+
+			for(int i = 3; i > -1; i--){
+				guiBoard.previewQueue(i+1, tetQ.element(i).getType());
+			}
 		}
 	}
 	

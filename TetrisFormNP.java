@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class TetrisFormNP extends javax.swing.JFrame {
+public class TetrisFormNP extends TetrisFormParent{
 
     /**
      * Creates new form TetrisForm
@@ -130,9 +130,20 @@ public class TetrisFormNP extends javax.swing.JFrame {
     	blok.setBounds(x, y, width, height);
     }
     
+    public void resetCurrentCoord(){
+    	currentX = startingX;
+    	currentX2 = startingX;
+    	currentX3 = startingX;
+    	currentX4 = startingX;
+    	currentY = startingY;
+    	currentY2 = startingY;
+    	currentY3 = startingY;
+    	currentY4 = startingY;
+    }
     
     public void resetPosition(){
     
+    resetCurrentCoord();
     blockLabel.setBounds(startingX, startingY, width, height);
     block2Label.setBounds(startingX, startingY, width, height);
     block3Label.setBounds(startingX, startingY, width, height);
@@ -215,24 +226,64 @@ public class TetrisFormNP extends javax.swing.JFrame {
     	
     }
     
-    public boolean checkForBlock(int xCo, int yCo){
+    
+    public int getActiveBlockPosX(int blockID){
     	
-    	boolean blockThere = false;
-    	String isThere = String.valueOf(placedLabels[xCo][yCo]);
-    	if (isThere != null){
-    		blockThere = true;
-    		System.out.println("block is here");
+    	if (blockID == 1){
+    		return currentX;
     	}
-    	return blockThere;
     	
+    	else if (blockID == 2){
+    		return currentX2;
+    	}
+    	
+    	else if (blockID == 3){
+    		return currentX3;
+    	}
+    	
+    	else if (blockID == 4){
+    		return currentX4;
+    	}
+    	
+    	else
+    		return startingX;
     }
+    
+    public int getActiveBlockPosY(int blockID){
+    	
+    	if (blockID == 1){
+    		return currentY;
+    	}
+    	
+    	else if (blockID == 2){
+    		return currentY2;
+    	}
+    	
+    	else if (blockID == 3){
+    		return currentY3;
+    	}
+    	
+    	else if (blockID == 4){
+    		return currentY4;
+    	}
+    	
+    	else
+    		return startingY;
+    }
+    
+    
+    public void setScore(int score){
+    	String scoreString = String.valueOf(score);
+    	scoreBoard.setText(scoreString);
+    }
+    
+    
     
     public boolean checkPos(int xCo, int yCo){
     	boolean somethingThere = false;
+
     	
-    	String placedBlocks = String.valueOf(placedLabels[xCo][yCo]);
-    	
-    	if(placedBlocks != "null"){
+    	if(placedLabels[xCo][yCo] != null){
     		somethingThere = true;
     	}
     	
@@ -244,19 +295,26 @@ public class TetrisFormNP extends javax.swing.JFrame {
     
     public void wipeBlock(int xCo, int yCo){
     	
-    	placedLabels[xCo][yCo].setVisible(false);
-    	LayeredPane.remove(placedLabels[xCo][yCo]);
+    	boolean somethingThere = checkPos(xCo, yCo);
+    	
+    	if (somethingThere == true){
+        	placedLabels[xCo][yCo].setVisible(false);
+        	LayeredPane.remove(placedLabels[xCo][yCo]);
+        	remove(placedLabels[xCo][yCo]);
+    	}
+    	
     	placedLabels[xCo][yCo] = null;
     }
     
     
     public void setBlockRow(JLabel block, int xCol, int yRow){
+     	
+    	boolean blockThere = false; 	
+     	
     	placedLabels[xCol][yRow] = block;
-    	
-    	boolean blockThere = checkPos(xCol, yRow);
+    	blockThere = checkPos(xCol, yRow);
     	
     	if (blockThere == true){
-    		System.out.println("block is here");
     	block.setBounds(xCol*31, yRow*31, 31, 31);
     	}
     	
@@ -267,6 +325,45 @@ public class TetrisFormNP extends javax.swing.JFrame {
     	return placedLabels[xPos][yPos];
     }
     
+ public void previewQueue(int paneNum, int blockType){
+    	
+		if (blockType == 1){
+			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\1IbeamG.png");
+			nextQueue.setIcon(piecePic);
+		}
+		
+		else if (blockType == 2){
+			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\2JbeamG.png");
+			nextQueue.setIcon(piecePic);
+		}
+		
+		else if (blockType == 3){
+			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\3LbeamG.png");
+			nextQueue.setIcon(piecePic);
+		}
+		
+		else if (blockType == 4){
+			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\4SquareG.png");
+			nextQueue.setIcon(piecePic);
+		}
+		
+		else if (blockType == 5){
+			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\5SbeamG.png");
+			nextQueue.setIcon(piecePic);
+		}
+		
+		else if (blockType == 6){
+			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\6TbeamG.png");
+			nextQueue.setIcon(piecePic);
+		}
+
+		else if (blockType == 7){
+			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\7ZbeamG.png");
+			nextQueue.setIcon(piecePic);
+		}
+    	
+    }
+    
     
     public void placeBlock(int xPos, int yPos){
     
@@ -274,6 +371,7 @@ public class TetrisFormNP extends javax.swing.JFrame {
     	JLabel finalBlock = new JLabel();
     	int blockW = 0;
     	int blockH = 0;
+    	boolean blockAlreadyThere = checkPos(xPos, yPos);
     	
     	if (finalBlockType == 1)
     	{
@@ -331,6 +429,11 @@ public class TetrisFormNP extends javax.swing.JFrame {
     		blockH = blockPic.getIconHeight();
     	}
         
+    	if (blockAlreadyThere == true){
+    		wipeBlock(xPos, yPos);
+    	}
+    	
+    	
     	LayeredPane.add(finalBlock);
         LayeredPane.moveToFront(finalBlock);
         
@@ -344,50 +447,6 @@ public class TetrisFormNP extends javax.swing.JFrame {
     	
     }
     
-    
-    public void previewQueue(int paneNum, int blockType){
-    	
-		if (blockType == 1){
-			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\1IbeamG.png");
-			nextQueue.setIcon(piecePic);
-		}
-		
-		else if (blockType == 2){
-			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\2JbeamG.png");
-			nextQueue.setIcon(piecePic);
-		}
-		
-		else if (blockType == 3){
-			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\3LbeamG.png");
-			nextQueue.setIcon(piecePic);
-		}
-		
-		else if (blockType == 4){
-			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\4SquareG.png");
-			nextQueue.setIcon(piecePic);
-		}
-		
-		else if (blockType == 5){
-			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\5SbeamG.png");
-			nextQueue.setIcon(piecePic);
-		}
-		
-		else if (blockType == 6){
-			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\6TbeamG.png");
-			nextQueue.setIcon(piecePic);
-		}
-
-		else if (blockType == 7){
-			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\7ZbeamG.png");
-			nextQueue.setIcon(piecePic);
-		}
-    	
-    }
-    
-    public void setScore(int score){
-    	String scoreString = String.valueOf(score);
-    	scoreBoard.setText(scoreString);
-    }
     
     public void setShape(int blockNumber, int blockType, int startX, int startY){
     	
@@ -551,6 +610,10 @@ public class TetrisFormNP extends javax.swing.JFrame {
     setSize(980, 930);
     setVisible(true);
     nextQueue.setIcon(null);
+    nextQueue2.setIcon(null);
+    nextQueue3.setIcon(null);
+    nextQueue4.setIcon(null);
+    scoreBoard.setText("0");
     
     LayeredPane.add(blockLabel);
     LayeredPane.add(block2Label);
@@ -575,6 +638,9 @@ public class TetrisFormNP extends javax.swing.JFrame {
 
         LayeredPane = new javax.swing.JLayeredPane();
         nextQueue = new javax.swing.JLabel();
+        nextQueue2 = new javax.swing.JLabel();
+        nextQueue3 = new javax.swing.JLabel();
+        nextQueue4 = new javax.swing.JLabel();
         scoreBoard = new javax.swing.JLabel();
         backgroundImage = new javax.swing.JLabel();
 
@@ -596,18 +662,23 @@ public class TetrisFormNP extends javax.swing.JFrame {
         LayeredPane.setBounds(281, 70, 310, 744);
         getContentPane().add(nextQueue);
         nextQueue.setBounds(624, 70, 110, 140);
+        getContentPane().add(nextQueue2);
+        nextQueue2.setBounds(622, 232, 80, 100);
+        getContentPane().add(nextQueue3);
+        nextQueue3.setBounds(622, 350, 80, 100);
+        getContentPane().add(nextQueue4);
 
         scoreBoard.setForeground(new java.awt.Color(102, 153, 255));
         scoreBoard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(scoreBoard);
         scoreBoard.setBounds(40, 70, 210, 110);
 
-        backgroundImage.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\background_1Piece.png"));
+        backgroundImage.setIcon(new javax.swing.ImageIcon(projPath + "\\art\\background_1Piece.png")); // NOI18N
         getContentPane().add(backgroundImage);
-        backgroundImage.setBounds(0, 0, 800, 850);
+        backgroundImage.setBounds(0, 0, 850, 850);
 
         pack();
-    }
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * @param args the command line arguments
@@ -617,6 +688,9 @@ public class TetrisFormNP extends javax.swing.JFrame {
     private javax.swing.JLayeredPane LayeredPane;
     private javax.swing.JLabel backgroundImage;
     private javax.swing.JLabel nextQueue;
+    private javax.swing.JLabel nextQueue2;
+    private javax.swing.JLabel nextQueue3;
+    private javax.swing.JLabel nextQueue4;
     private javax.swing.JLabel scoreBoard;
     // End of variables declaration//GEN-END:variables
     
