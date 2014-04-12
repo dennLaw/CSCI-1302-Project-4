@@ -345,7 +345,7 @@ public class TetrisFormNP extends javax.swing.JFrame {
     }
     
     
-    public void previewQueue(int blockType){
+    public void previewQueue(int paneNum, int blockType){
     	
 		if (blockType == 1){
 			ImageIcon piecePic = new ImageIcon(projPath + "\\art\\1IbeamG.png");
@@ -384,6 +384,10 @@ public class TetrisFormNP extends javax.swing.JFrame {
     	
     }
     
+    public void setScore(int score){
+    	String scoreString = String.valueOf(score);
+    	scoreBoard.setText(scoreString);
+    }
     
     public void setShape(int blockNumber, int blockType, int startX, int startY){
     	

@@ -325,6 +325,10 @@ public class TetrisForm extends javax.swing.JFrame {
     	return placedLabels[xPos][yPos];
     }
     
+    public void previewQueue(int paneNum, int blockType){
+    	
+    }
+    
     
     public void placeBlock(int xPos, int yPos){
     

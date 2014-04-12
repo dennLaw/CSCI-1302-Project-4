@@ -38,6 +38,10 @@ public class TetrisBoard{
 				playingBoard[x][y] = 0;
 			}
 		}
+		
+		for(int i = 3; i > -1; i--){
+			guiBoard.previewQueue(i, tetQ.element(i).getType());
+		}
 	}
 	
 	public void createForm() {

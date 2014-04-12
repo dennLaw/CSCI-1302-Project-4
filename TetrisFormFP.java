@@ -140,6 +140,10 @@ public class TetrisFormFP extends javax.swing.JFrame {
     
     }
     
+    public void setScore(int score){
+    	String scoreString = String.valueOf(score);
+    	scoreBoard.setText(scoreString);
+    }
     
     public void previewQueue(int paneNum, int blockType){
     	
