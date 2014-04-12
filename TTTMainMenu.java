@@ -9,7 +9,10 @@
  * @author KLZ de Panama
  */
 public class TTTMainMenu extends javax.swing.JFrame {
-
+    
+    String diff;
+    boolean human;
+    TTTBoard ttt;
     /**
      * Creates new form TTTMainMenu
      */
@@ -58,7 +61,7 @@ public class TTTMainMenu extends javax.swing.JFrame {
             }
         });
 
-        DifficultyBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Toddler", "Intermediate", "Hard", "Self-Lock", " " }));
+        DifficultyBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Toddler", "Intermediate", "War Games", "Self Lock", "" }));
         DifficultyBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DifficultyBoxActionPerformed(evt);
@@ -109,56 +112,59 @@ public class TTTMainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         // TODO add your handling code here:
+        
+        if (human == false){
+            if (diff.equalsIgnoreCase("Toddler")){
+                ttt.makeFrame("Computer", 0);
+            }
+        
+        
+                   else if (diff.equalsIgnoreCase("Intermediate")){
+                ttt.makeFrame("Computer", 1);
+            }
+        
+    
+                       else if (diff.equalsIgnoreCase("War Games")){
+                ttt.makeFrame("Computer", 2);
+            }
+        
+
+                   else if (diff.equalsIgnoreCase("Self Lock")){
+                ttt.makeFrame("Computer", 3);
+            }
+        }
+        
+        else
+            ttt.makeFrame();
+        
     }//GEN-LAST:event_playButtonActionPerformed
 
     private void ComputerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComputerButtonActionPerformed
-        // TODO add your handling code here:
+        DifficultyBox.setVisible(true);
+        human = false;
+        diff = "Toddler";
     }//GEN-LAST:event_ComputerButtonActionPerformed
 
     private void HumanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HumanButtonActionPerformed
         // TODO add your handling code here:
+        DifficultyBox.setVisible(false);
+        human = true;
     }//GEN-LAST:event_HumanButtonActionPerformed
 
     private void DifficultyBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DifficultyBoxActionPerformed
         // TODO add your handling code here:
+        String diff = (String)DifficultyBox.getSelectedItem();
     }//GEN-LAST:event_DifficultyBoxActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TTTMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TTTMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TTTMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TTTMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TTTMainMenu().setVisible(true);
-            }
-        });
-    }
+public void makeFrame(){
+    setVisible(true);
+    human = true;
+    DifficultyBox.setVisible(false);
+    ttt = new TTTBoard();
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup ButtonGroup;

@@ -741,7 +741,7 @@ public class TTTBoard extends javax.swing.JFrame {
 
     
     
-    public void makeFrame(String opponent){
+    public void makeFrame(String opponent, int difficulty){
     
         player1Turn = true;
         player2Turn = false;
@@ -757,7 +757,7 @@ public class TTTBoard extends javax.swing.JFrame {
         
         if (opponent.equalsIgnoreCase("Computer")){
         	ai = true;
-        	sam = new TicTacToeAI(1);
+        	sam = new TicTacToeAI(difficulty);
         }
         
         showAll();
@@ -768,6 +768,30 @@ public class TTTBoard extends javax.swing.JFrame {
 		textArea.setText("Welcome to Tic-Tac-Toe! Make the first move, Player 1.");
     
     }
+    
+    
+    public void makeFrame(){
+        
+    player1Turn = true;
+    player2Turn = false;
+    ai = false;
+    playAgain.setVisible(false);
+    undoButton.setVisible(false);
+    buttonsClicked = 0;
+    ttt = new TicTacToe();
+    scoreP1 = 0;
+    scoreP2 = 0;
+    firstMove = 0;
+    resetIcons();
+    
+    showAll();
+    setSize(900, 800);
+    setScoreP1(0);
+    setScoreP2(0);
+    setVisible(true);
+	textArea.setText("Welcome to Tic-Tac-Toe! Make the first move, Player 1.");
+
+}
     
     
     public void setScoreP1(int Score){
