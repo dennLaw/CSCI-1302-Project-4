@@ -143,22 +143,67 @@ public class TetrisMainMenu extends javax.swing.JFrame {
 
     private void PlayButtonActionPerformed(java.awt.event.ActionEvent evt) throws InterruptedException {//GEN-FIRST:event_PlayButtonActionPerformed
         // TODO add your handling code here:
-        if (choice == 1){
-            TB = new TetrisBoard();
+    	if (choice == 1){
+            TB = new TetrisBoard(1);
             TB.createForm();
             setVisible(false);
 			
-            long timer = 0;
-            boolean finished = false;
+            double timer = System.currentTimeMillis();
             
-            while (finished = false){
-            
-            	timer = System.currentTimeMillis();
-            	if(System.currentTimeMillis() - timer > 600){
-            		TB.tick();
+            while (!TB.gameFinished()){
+            	
+            	TB.moveLeft();
+        		TB.moveRight();
+        		TB.twist();
+        		TB.instantDrop();
+            	
+	            if(System.currentTimeMillis() - timer > 400){
+	            	TB.tick();
+				
+	            	timer = System.currentTimeMillis();
+	            }
+            }
+        }
+    	else if (choice == 2){
+            TB = new TetrisBoard(2);
+            TB.createForm();
+            setVisible(false);
 			
-            		timer = System.currentTimeMillis();
-            	}
+            double timer = System.currentTimeMillis();
+            
+            while (!TB.gameFinished()){
+            	
+            	TB.moveLeft();
+        		TB.moveRight();
+        		TB.twist();
+        		TB.instantDrop();
+            	
+	            if(System.currentTimeMillis() - timer > 400){
+	            	TB.tick();
+				
+	            	timer = System.currentTimeMillis();
+	            }
+            }
+        }
+    	else if (choice == 3){
+            TB = new TetrisBoard(4);
+            TB.createForm();
+            setVisible(false);
+			
+            double timer = System.currentTimeMillis();
+            
+            while (!TB.gameFinished()){
+            	
+            	TB.moveLeft();
+        		TB.moveRight();
+        		TB.twist();
+        		TB.instantDrop();
+            	
+	            if(System.currentTimeMillis() - timer > 400){
+	            	TB.tick();
+				
+	            	timer = System.currentTimeMillis();
+	            }
             }
         }
     }
